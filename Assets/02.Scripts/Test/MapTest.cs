@@ -6,10 +6,18 @@ using UnityEngine.Tilemaps;
 
 public class MapTest : MonoBehaviour
 {
+    enum TileState
+    {
+        None,
+        Wall,
+        Tower,
+    }
+
     struct TileInfo
     {
+        public int[] tileIndex;
         public Vector3Int tilePos;
-        public int tileState;
+        public TileState tileState;
     }
 
     private Tilemap _tilemap;
@@ -35,6 +43,7 @@ public class MapTest : MonoBehaviour
 
                 _map[i, j] = new TileInfo()
                 {
+                    tileIndex = new int[] { i, j },
                     tilePos = pos,
                     tileState = 0
                 };
@@ -61,6 +70,8 @@ public class MapTest : MonoBehaviour
                 Debug.Log(_map[_tilemap.size.y / 2 - tpos.y - 1, _tilemap.size.x / 2 + tpos.x].tilePos);
 
                 selectedTile = _map[_tilemap.size.y / 2 - tpos.y - 1, _tilemap.size.x / 2 + tpos.x];
+
+                Debug.Log(selectedTile.tileState);
             }
         }
 
@@ -68,8 +79,10 @@ public class MapTest : MonoBehaviour
         {
             if (PathFindbyBFS(selectedTile, _map))
             {
-                Instantiate(_testWall, selectedTile.tilePos + new Vector3(0.5f, -0.5f, 0.0f), Quaternion.identity);
-                selectedTile.tileState = 1;
+                //Instantiate(_testWall, selectedTile.tilePos + new Vector3(0.5f, -0.5f, 0.0f), Quaternion.identity);
+                PoolManager.instance.Get(0);
+                selectedTile.tileState = TileState.Wall;
+                Debug.Log($"Wall Created in {selectedTile.tileIndex[0]}, {selectedTile.tileIndex[1]}");
             }
 
             else
@@ -81,8 +94,11 @@ public class MapTest : MonoBehaviour
 
     bool PathFindbyBFS(TileInfo tileToTry, TileInfo[,] map)
     {
-        TileInfo[,] expectedMap = map;
-        expectedMap[_tilemap.size.y / 2 - tileToTry.tilePos.y, _tilemap.size.x / 2 + tileToTry.tilePos.x].tileState = 1;
+        if (tileToTry.tileIndex[0] == 0 && tileToTry.tileIndex[1] == 0)
+            return false;
+
+        TileInfo[,] expectedMap = (TileInfo[,])map.Clone();
+        expectedMap[tileToTry.tileIndex[0], tileToTry.tileIndex[1]].tileState = TileState.Wall;
 
         int[] dirY = { -1, 0, 1, 0 };
         int[] dirX = { 0, -1, 0, 1 };

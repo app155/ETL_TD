@@ -15,7 +15,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Enemy
   - 
   - 
   - 
@@ -40,4 +40,22 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 3707739831
+    locked: 0
+  - name: Wall
+    uniqueID: 3218300509
+    locked: 0
+  - name: Tower
+    uniqueID: 351396955
+    locked: 0
+  - name: Enemy
+    uniqueID: 653457865
+    locked: 0
+  - name: Missle
+    uniqueID: 3487528333
+    locked: 0
+  - name: Effect
+    uniqueID: 844436861
     locked: 0
