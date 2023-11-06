@@ -19,33 +19,39 @@ public enum AttackType
 
 public class TowerController : MonoBehaviour
 {
-    [SerializeField] protected TowerType _towerType;
-    [SerializeField] protected AttackType _attackType;
+    [SerializeField] private TowerType _towerType;
+    public AttackType _attackType;
 
-    [SerializeField] protected int id;
+    public int id;
     [SerializeField] protected int level;
 
-    [SerializeField] protected float _atk;
+    public float _atk;
     [SerializeField] protected float _atkBase;
     [SerializeField] protected float _atkRange;
-    [SerializeField] protected float _atkSpeed;
+    [SerializeField] protected float _atkTime;
+    [SerializeField] protected float _atkTimer;
 
     [SerializeField] protected int _upgrade;
     [SerializeField] protected int _upgradeMax;
     [SerializeField] protected float _upgradeGain;
 
-    [SerializeField] protected Transform _target;
+    public Transform _target;
     [SerializeField] protected MissleController _missle;
     [SerializeField] protected LayerMask _targetLayer;
 
     void Start()
     {
-        
+        _atkTimer = _atkTime;
     }
 
     void Update()
     {
-        
+        _atkTimer -= Time.deltaTime;
+
+        if (_target != null && _atkTimer <= 0.0f)
+        {
+            LaunchMissle();
+        }
     }
 
     private void FixedUpdate()
@@ -82,7 +88,9 @@ public class TowerController : MonoBehaviour
 
     void LaunchMissle()
     {
-        Instantiate(_missle);
+        // temp
+        Instantiate(_missle)._owner = this;
+        _atkTimer = _atkTime;
     }
 
     private void OnDrawGizmos()

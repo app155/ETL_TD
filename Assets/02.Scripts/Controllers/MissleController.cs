@@ -18,6 +18,12 @@ public class MissleController : MonoBehaviour
     private void Awake()
     {
         _rigid = GetComponent<Rigidbody2D>();
+    }
+
+    private void Start()
+    {
+        _atk = _owner._atk;
+        _target = _owner._target;
         _targetPos = _target.position;
     }
 
