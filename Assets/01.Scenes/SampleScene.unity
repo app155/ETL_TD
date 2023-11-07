@@ -453,7 +453,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1284304315514765751, guid: 253cf36c8745e0f4ab8b114362c7cf13, type: 3}
       propertyPath: m_Name
-      value: Rectangular Palette
+      value: Tilemap
       objectReference: {fileID: 0}
     - target: {fileID: 3071565333154386126, guid: 253cf36c8745e0f4ab8b114362c7cf13, type: 3}
       propertyPath: m_LocalPosition.x
@@ -494,6 +494,10 @@ PrefabInstance:
     - target: {fileID: 3071565333154386126, guid: 253cf36c8745e0f4ab8b114362c7cf13, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6503894704324593248, guid: 253cf36c8745e0f4ab8b114362c7cf13, type: 3}
+      propertyPath: m_Name
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 7809467133064740134, guid: 253cf36c8745e0f4ab8b114362c7cf13, type: 3}
       propertyPath: m_SortOrder

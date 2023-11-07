@@ -42,7 +42,6 @@ public class MapManager : MonoBehaviour
     private Vector3 _cellSize;
     public TileInfo[,] _map;
     [SerializeField] private TileInfo selectedTile;
-    [SerializeField] private GameObject _testWall;
 
     public List<int[]> path;
 
@@ -102,10 +101,12 @@ public class MapManager : MonoBehaviour
         {
             if (PathFindbyBFS(selectedTile, _map))
             {
-                //Instantiate(_testWall, selectedTile.tilePos + new Vector3(0.5f, -0.5f, 0.0f), Quaternion.identity);
-                GameObject wall = PoolManager.instance.Get(0);
-                wall.transform.position = selectedTile.tilePos;
-                selectedTile.tileState = TileState.Wall;
+                //GameObject wall = PoolManager.instance.Get((int)PoolTag.Wall);
+                //wall.transform.position = selectedTile.tilePos;
+                //selectedTile.tileState = TileState.Wall;
+
+                SpawnManager.instance.SpawnWall(selectedTile.tileIndex[0], selectedTile.tileIndex[1]);
+
                 Debug.Log($"Wall Created in {selectedTile.tileIndex[0]}, {selectedTile.tileIndex[1]}");
             }
 

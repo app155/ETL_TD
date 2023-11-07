@@ -93,6 +93,11 @@ public class TowerController : MonoBehaviour
         _atkTimer = _atkTime;
     }
 
+    public void SetUp(int id)
+    {
+
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
