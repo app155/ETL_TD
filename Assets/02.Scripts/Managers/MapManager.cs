@@ -7,21 +7,28 @@ using UnityEngine.Tilemaps;
 
 public class MapManager : MonoBehaviour
 {
-    enum TileState
+    public enum TileState
     {
         None,
         Wall,
         Tower,
     }
 
-    struct TileInfo
+    public struct TileInfo
     {
         public int[] tileIndex;
         public Vector3 tilePos;
         public TileState tileState;
     }
 
-    public static MapManager Instance
+    struct PathChecker
+    {
+        public bool visited;
+        public int prevY;
+        public int prevX;
+    }
+
+    public static MapManager instance
     {
         get
         {
@@ -33,11 +40,11 @@ public class MapManager : MonoBehaviour
 
     private Tilemap _tilemap;
     private Vector3 _cellSize;
-    [SerializeField] private TileInfo[,] _map;
+    public TileInfo[,] _map;
     [SerializeField] private TileInfo selectedTile;
     [SerializeField] private GameObject _testWall;
 
-    private Queue<TileInfo> path;
+    public List<int[]> path;
 
     private void Awake()
     {
@@ -47,10 +54,11 @@ public class MapManager : MonoBehaviour
         _cellSize = _tilemap.cellSize;
 
         _map = new TileInfo[_tilemap.size.y, _tilemap.size.x];
+        path = new List<int[]>();
 
-        for (int i = 0; i < _tilemap.size.y; i++)
+        for (int i = 0; i < _tilemap.size.y; i += (int)_cellSize.y)
         {
-            for (int j = 0; j < _tilemap.size.x; j++)
+            for (int j = 0; j < _tilemap.size.x; j += (int)_cellSize.x)
             {
                 Vector3Int pos = new Vector3Int(j - _tilemap.size.x / 2, _tilemap.size.y / 2 - i, 0);
 
@@ -64,6 +72,8 @@ public class MapManager : MonoBehaviour
         }
 
         Debug.Log(_tilemap.origin);
+
+        PathFindbyBFS(_map[0, 0], _map, true);
     }
 
     private void Update()
@@ -84,7 +94,7 @@ public class MapManager : MonoBehaviour
 
                 selectedTile = _map[_tilemap.size.y / 2 - tpos.y - 1, _tilemap.size.x / 2 + tpos.x];
 
-                Debug.Log(selectedTile.tileState);
+                Debug.Log($"TileState : {selectedTile.tileState}");
             }
         }
 
@@ -106,13 +116,17 @@ public class MapManager : MonoBehaviour
         }
     }
 
-    bool PathFindbyBFS(TileInfo tileToTry, TileInfo[,] map)
+    bool PathFindbyBFS(TileInfo tileToTry, TileInfo[,] map, bool isInit = false)
     {
-        if (tileToTry.tileIndex[0] == 0 && tileToTry.tileIndex[1] == 0)
+        if (tileToTry.tileIndex[0] == 0 && tileToTry.tileIndex[1] == 0 && isInit == false)
             return false;
 
         TileInfo[,] expectedMap = (TileInfo[,])map.Clone();
-        expectedMap[tileToTry.tileIndex[0], tileToTry.tileIndex[1]].tileState = TileState.Wall;
+
+        if (isInit == false)
+        {
+            expectedMap[tileToTry.tileIndex[0], tileToTry.tileIndex[1]].tileState = TileState.Wall;
+        }
 
         int[] dirY = { -1, 0, 1, 0 };
         int[] dirX = { 0, -1, 0, 1 };
@@ -120,13 +134,15 @@ public class MapManager : MonoBehaviour
         int mapHeight = expectedMap.GetLength(0);
         int mapWidth = expectedMap.GetLength(1);
 
-        bool[,] visited = new bool[mapHeight, mapWidth];
-        visited[0, 0] = true;
+        PathChecker[,] checker = new PathChecker[mapHeight, mapWidth];
+        checker[0, 0].visited = true;
+        checker[0, 0].prevY = 0;
+        checker[0, 0].prevX = 0;
 
         Queue<int[]> q = new Queue<int[]>();
         q.Enqueue(new int[] { 0, 0 });
 
-        while (q.Count > 0 && visited[mapHeight - 1, mapWidth - 1] == false)
+        while (q.Count > 0 && checker[mapHeight - 1, mapWidth - 1].visited == false)
         {
             int[] now = q.Dequeue();
             int nowY = now[0];
@@ -142,7 +158,7 @@ public class MapManager : MonoBehaviour
                     continue;
                 }
 
-                if (visited[nextY, nextX])
+                if (checker[nextY, nextX].visited)
                 {
                     continue;
                 }
@@ -153,11 +169,15 @@ public class MapManager : MonoBehaviour
                 }
 
                 q.Enqueue(new int[] { nextY, nextX });
-                visited[nextY, nextX] = true;
+                checker[nextY, nextX].visited = true;
+                checker[nextY, nextX].prevY = nowY;
+                checker[nextY, nextX].prevX = nowX;
             }
         }
 
-        if (visited[mapHeight - 1, mapWidth - 1] == false)
+        MakePath(checker);
+
+        if (checker[mapHeight - 1, mapWidth - 1].visited == false)
         {
             return false;
         }
@@ -166,4 +186,27 @@ public class MapManager : MonoBehaviour
         return true;
     }
 
+    void MakePath(PathChecker[,] checker)
+    {
+        path.Clear();
+
+        int nowY = checker.GetLength(0) - 1;
+        int nowX = checker.GetLength(1) - 1;
+
+        path.Add(new int[] { nowY, nowX });
+
+        while (!(nowY == 0 && nowX == 0))
+        {
+            PathChecker now = checker[nowY, nowX];
+            path.Add(new int[] { checker[nowY, nowX].prevY, checker[nowY, nowX].prevX });
+
+            int tmpY = nowY;
+            int tmpX = nowX;
+
+            nowY = checker[tmpY, tmpX].prevY;
+            nowX = checker[tmpY, tmpX].prevX;
+        }
+
+        path.Reverse();
+    }
 }
