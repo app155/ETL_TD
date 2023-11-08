@@ -72,10 +72,11 @@ public class GameObjectPool : MonoBehaviour
 
     protected virtual void OnReturnToPool(GameObject item)
     {
-        gameObject.SetActive(false);
+        item.SetActive(false);
     }
+
     protected virtual void OnDestroyPooledItem(GameObject item)
     {
-        Destroy(gameObject);
+        Destroy(item.gameObject);
     }
 }

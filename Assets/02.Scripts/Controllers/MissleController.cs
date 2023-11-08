@@ -23,8 +23,6 @@ public class MissleController : MonoBehaviour
     private void Start()
     {
         _atk = _owner._atk;
-        _target = _owner._target;
-        _targetPos = _target.position;
     }
 
     private void Update()
@@ -40,6 +38,13 @@ public class MissleController : MonoBehaviour
         Follow(_targetPos);
     }
 
+    public void SetUp()
+    {
+        transform.position = _owner.transform.position;
+        _target = _owner._target;
+        _targetPos = _target.position;
+    }
+
     void RefreshTargetPosition()
     {
         _targetPos = _target.position;
@@ -47,6 +52,27 @@ public class MissleController : MonoBehaviour
 
     void Follow(Vector2 targetPos)
     {
-        _rigid.position += (targetPos - _rigid.position).normalized * _moveSpeed * Time.fixedDeltaTime;
+        Vector2 expectedPos = (targetPos - _rigid.position).normalized * _moveSpeed * Time.fixedDeltaTime;
+        float expectedDistance = expectedPos.magnitude;
+
+        if (Vector2.Distance(_targetPos, _rigid.position) < expectedDistance)
+            _rigid.position = targetPos;
+
+        else
+        {
+            _rigid.position += expectedPos;
+        }
+
+        if (Vector2.Distance(_targetPos, _rigid.position) < 0.03f)
+        {
+            Fire();
+        }
+    }
+
+    void Fire()
+    {
+        // deal damage
+        // effect
+        gameObject.SetActive(false);
     }
 }

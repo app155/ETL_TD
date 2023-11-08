@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class Wall : MonoBehaviour
 {
-
+    public MapManager.TileInfo tileBelong;
 }

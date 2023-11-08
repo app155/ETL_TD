@@ -4,9 +4,27 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    public int hp
+    {
+        get { return _hp; }
+        set
+        {
+            if (_hp <= 0)
+            {
+                _hp = 0;
+            }
+
+            else
+            {
+                _hp -= value;
+            }
+        }
+    }
+
     private List<int[]> path;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private int _step;
+    private int _hp;
 
     private int[] _nextPosIndex;
     [SerializeField] private Vector3 nextPos;
@@ -20,10 +38,7 @@ public class EnemyController : MonoBehaviour
 
     private void OnEnable()
     {
-        path = new List<int[]>(MapManager.instance.path);
-        transform.position = new Vector2(-8.5f, 4.5f);
-        _spriteRenderer.sprite = RoundEnemyData.instance.enemyDataList[GameManager.instance.round].sprite;
-        _moveSpeed = RoundEnemyData.instance.enemyDataList[GameManager.instance.round].moveSpeed;
+        SetUp();
     }
 
     void Start()
@@ -41,10 +56,18 @@ public class EnemyController : MonoBehaviour
         MoveByPath();
     }
 
+    public void SetUp()
+    {
+        path = new List<int[]>(MapManager.instance.path);
+        transform.position = new Vector2(-8.5f, 4.5f);
+        _spriteRenderer.sprite = RoundEnemyData.instance.enemyDataList[GameManager.instance.round].sprite;
+        _moveSpeed = RoundEnemyData.instance.enemyDataList[GameManager.instance.round].moveSpeed;
+    }
+
     void MoveByPath()
     {
         _nextPosIndex = path[_step];
-        Vector3 nextPos = MapManager.instance._map[_nextPosIndex[0], _nextPosIndex[1]].tilePos;
+        Vector3 nextPos = MapManager.instance.map[_nextPosIndex[0], _nextPosIndex[1]].tilePos;
 
         if (Vector2.Distance(transform.position, nextPos) >= 0.03f)
         {

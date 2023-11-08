@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3356185824800501764
 Transform:
   m_ObjectHideFlags: 0
@@ -99,9 +99,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _owner: {fileID: 0}
-  attackType: 0
+  attackType: 1
   _atk: 0
-  _moveSpeed: 0.5
+  _moveSpeed: 50
   _target: {fileID: 0}
   _targetPos: {x: 0, y: 0}
 --- !u!50 &8826445397468933963

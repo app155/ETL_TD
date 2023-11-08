@@ -5,6 +5,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public enum GamePhase
+    {
+        None,
+        BuildPhase,
+        DefensePhase,
+    }
+
     public static GameManager instance
     {
         get
@@ -25,7 +32,7 @@ public class GameManager : MonoBehaviour
         set
         {
             _gold = value;
-            onGoldChanged?.Invoke();
+            onGoldChanged?.Invoke(value);
         }
     }
 
@@ -40,6 +47,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [SerializeField] private GamePhase gamePhase;
+
     private static GameManager _instance;
     [SerializeField] private int _initialGold;
     private int _gold;
@@ -48,13 +57,14 @@ public class GameManager : MonoBehaviour
 
     public int round;
 
-    public Action onGoldChanged;
+    public Action<int> onGoldChanged;
     public Action onLifeDepleted;
 
     void Start()
     {
-        _gold = _initialGold;
-        _life = _initialLife;
+        gold = _initialGold;
+        life = _initialLife;
+        gamePhase = GamePhase.BuildPhase;
     }
 
     void Update()

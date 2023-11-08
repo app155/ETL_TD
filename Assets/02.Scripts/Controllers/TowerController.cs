@@ -24,6 +24,7 @@ public class TowerController : MonoBehaviour
 
     public int id;
     [SerializeField] protected int level;
+    public MapManager.TileInfo tileBelong;
 
     public float _atk;
     [SerializeField] protected float _atkBase;
@@ -72,8 +73,6 @@ public class TowerController : MonoBehaviour
 
     Transform Search()
     {
-        Debug.Log("Searching");
-
         RaycastHit2D[] hit = Physics2D.CircleCastAll(transform.position, _atkRange, Vector2.zero, 0.0f, _targetLayer);
 
         if (hit.Length > 0)
@@ -88,8 +87,7 @@ public class TowerController : MonoBehaviour
 
     void LaunchMissle()
     {
-        // temp
-        Instantiate(_missle)._owner = this;
+        BuildManager.instance.SpawnMissle(this);
         _atkTimer = _atkTime;
     }
 

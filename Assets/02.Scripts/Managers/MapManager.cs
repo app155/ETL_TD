@@ -14,11 +14,13 @@ public class MapManager : MonoBehaviour
         Tower,
     }
 
-    public struct TileInfo
+    public class TileInfo
     {
         public int[] tileIndex;
         public Vector3 tilePos;
         public TileState tileState;
+        public Wall wall;
+        public TowerController tower;
     }
 
     struct PathChecker
@@ -38,10 +40,10 @@ public class MapManager : MonoBehaviour
 
     private static MapManager _instance;
 
-    private Tilemap _tilemap;
+    public Tilemap tilemap;
     private Vector3 _cellSize;
-    public TileInfo[,] _map;
-    [SerializeField] private TileInfo selectedTile;
+    public TileInfo[,] map;
+    public TileInfo selectedTile;
 
     public List<int[]> path;
 
@@ -49,19 +51,19 @@ public class MapManager : MonoBehaviour
     {
         _instance = this;
 
-        _tilemap = GetComponent<Tilemap>();
-        _cellSize = _tilemap.cellSize;
+        tilemap = GetComponent<Tilemap>();
+        _cellSize = tilemap.cellSize;
 
-        _map = new TileInfo[_tilemap.size.y, _tilemap.size.x];
+        map = new TileInfo[tilemap.size.y, tilemap.size.x];
         path = new List<int[]>();
 
-        for (int i = 0; i < _tilemap.size.y; i += (int)_cellSize.y)
+        for (int i = 0; i < tilemap.size.y; i += (int)_cellSize.y)
         {
-            for (int j = 0; j < _tilemap.size.x; j += (int)_cellSize.x)
+            for (int j = 0; j < tilemap.size.x; j += (int)_cellSize.x)
             {
-                Vector3Int pos = new Vector3Int(j - _tilemap.size.x / 2, _tilemap.size.y / 2 - i, 0);
+                Vector3Int pos = new Vector3Int(j - tilemap.size.x / 2, tilemap.size.y / 2 - i, 0);
 
-                _map[i, j] = new TileInfo()
+                map[i, j] = new TileInfo()
                 {
                     tileIndex = new int[] { i, j },
                     tilePos = pos + new Vector3(0.5f, -0.5f, 0.0f),
@@ -70,70 +72,67 @@ public class MapManager : MonoBehaviour
             }
         }
 
-        Debug.Log(_tilemap.origin);
+        Debug.Log(tilemap.origin);
 
-        PathFindbyBFS(_map[0, 0], _map, true);
+        PathFindbyBFS(map[0, 0], map, true);
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+        // !Move to other Script!
 
-            Debug.DrawRay(mousePos, Vector2.zero, Color.red, 1.0f);
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //    RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
 
-            if (hit.collider != null)
-            {
-                Vector3Int tpos = _tilemap.WorldToCell(hit.point);
-                Debug.Log(tpos);
-                Debug.Log($"12123123,{_tilemap.size.y / 2 - tpos.y - 1}, {_tilemap.size.x / 2 + tpos.x}");
-                Debug.Log(_map[_tilemap.size.y / 2 - tpos.y - 1, _tilemap.size.x / 2 + tpos.x].tilePos);
+        //    Debug.DrawRay(mousePos, Vector2.zero, Color.red, 1.0f);
 
-                selectedTile = _map[_tilemap.size.y / 2 - tpos.y - 1, _tilemap.size.x / 2 + tpos.x];
+        //    if (hit.collider != null)
+        //    {
+        //        Vector3Int tpos = _tilemap.WorldToCell(hit.point);
+        //        Debug.Log(tpos);
+        //        Debug.Log($"12123123,{_tilemap.size.y / 2 - tpos.y - 1}, {_tilemap.size.x / 2 + tpos.x}");
+        //        Debug.Log(_map[_tilemap.size.y / 2 - tpos.y - 1, _tilemap.size.x / 2 + tpos.x].tilePos);
 
-                Debug.Log($"TileState : {selectedTile.tileState}");
-            }
-        }
+        //        selectedTile = _map[_tilemap.size.y / 2 - tpos.y - 1, _tilemap.size.x / 2 + tpos.x];
 
-        if (Input.GetKeyDown(KeyCode.Space) && Comparer.Default.Compare(selectedTile, default) != 0 && selectedTile.tileState == 0)
-        {
-            if (PathFindbyBFS(selectedTile, _map))
-            {
-                //GameObject wall = PoolManager.instance.Get((int)PoolTag.Wall);
-                //wall.transform.position = selectedTile.tilePos;
-                //selectedTile.tileState = TileState.Wall;
+        //        Debug.Log($"TileState : {selectedTile.tileState}");
+        //    }
+        //}
 
-                SpawnManager.instance.SpawnWall(selectedTile.tileIndex[0], selectedTile.tileIndex[1]);
+        //if (Input.GetKeyDown(KeyCode.Space) && Comparer.Default.Compare(selectedTile, default) != 0 && selectedTile.tileState == 0)
+        //{
+        //    if (PathFindbyBFS(selectedTile, _map))
+        //    {
+        //        SpawnManager.instance.SpawnWall(selectedTile.tileIndex[0], selectedTile.tileIndex[1]);
 
-                Debug.Log($"Wall Created in {selectedTile.tileIndex[0]}, {selectedTile.tileIndex[1]}");
-            }
+        //        Debug.Log($"Wall Created in {selectedTile.tileIndex[0]}, {selectedTile.tileIndex[1]}");
+        //    }
 
-            else
-            {
-                Debug.Log("길막임");
-            }
-        }
+        //    else
+        //    {
+        //        Debug.Log("길막임");
+        //    }
+        //}
     }
 
-    bool PathFindbyBFS(TileInfo tileToTry, TileInfo[,] map, bool isInit = false)
+    public bool PathFindbyBFS(TileInfo tileToTry, TileInfo[,] map, bool isInit = false)
     {
         if (tileToTry.tileIndex[0] == 0 && tileToTry.tileIndex[1] == 0 && isInit == false)
             return false;
 
-        TileInfo[,] expectedMap = (TileInfo[,])map.Clone();
 
         if (isInit == false)
         {
-            expectedMap[tileToTry.tileIndex[0], tileToTry.tileIndex[1]].tileState = TileState.Wall;
+            map[tileToTry.tileIndex[0], tileToTry.tileIndex[1]].tileState = TileState.Wall;
         }
 
         int[] dirY = { -1, 0, 1, 0 };
         int[] dirX = { 0, -1, 0, 1 };
 
-        int mapHeight = expectedMap.GetLength(0);
-        int mapWidth = expectedMap.GetLength(1);
+        int mapHeight = map.GetLength(0);
+        int mapWidth = map.GetLength(1);
 
         PathChecker[,] checker = new PathChecker[mapHeight, mapWidth];
         checker[0, 0].visited = true;
@@ -164,7 +163,7 @@ public class MapManager : MonoBehaviour
                     continue;
                 }
 
-                if (expectedMap[nextY, nextX].tileState > 0)
+                if (map[nextY, nextX].tileState > 0)
                 {
                     continue;
                 }
@@ -180,10 +179,10 @@ public class MapManager : MonoBehaviour
 
         if (checker[mapHeight - 1, mapWidth - 1].visited == false)
         {
+            map[tileToTry.tileIndex[0], tileToTry.tileIndex[1]].tileState = TileState.None;
             return false;
         }
 
-        _map = expectedMap;
         return true;
     }
 
