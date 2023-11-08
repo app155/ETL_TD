@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float _enemySpawnTimer;
     [SerializeField] private float _enemySpawnTime;
 
+    public Action onRoundSpawnFinish;
+
     void Start()
     {
 
@@ -19,10 +22,11 @@ public class EnemySpawner : MonoBehaviour
         SpawnEnemy();
     }
 
-    void SpawnEnemy()
+    public void SpawnEnemy()
     {
         if (_enemySpawnCount >= _enemySpawnCountMax)
         {
+            onRoundSpawnFinish?.Invoke();
             return;
         }
 

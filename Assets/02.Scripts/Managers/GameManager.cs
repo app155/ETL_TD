@@ -56,9 +56,15 @@ public class GameManager : MonoBehaviour
     private int _life;
 
     public int round;
+    private int roundMax;
 
     public Action<int> onGoldChanged;
     public Action onLifeDepleted;
+
+    private void Awake()
+    {
+        
+    }
 
     void Start()
     {
