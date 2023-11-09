@@ -31,9 +31,4 @@ public class PoolManager
 
         return item;
     }
-
-    //public void Release(int id, GameObject item)
-    //{
-    //    _pools[id].Release(item);
-    //}
 }

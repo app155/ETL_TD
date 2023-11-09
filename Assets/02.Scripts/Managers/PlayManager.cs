@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,7 @@ public class PlayManager : MonoBehaviour
     }
 
     private static PlayManager _instance;
+
 
     void Start()
     {
@@ -50,7 +52,7 @@ public class PlayManager : MonoBehaviour
         {
             if (MapManager.instance.PathFindbyBFS(MapManager.instance.selectedTile, MapManager.instance.map))
             {
-                BuildManager.instance.SpawnWall(MapManager.instance.selectedTile);
+                SpawnManager.instance.SpawnWall(MapManager.instance.selectedTile);
 
                 Debug.Log($"Wall Created in {MapManager.instance.selectedTile.tileIndex[0]}, {MapManager.instance.selectedTile.tileIndex[1]}");
             }
@@ -63,17 +65,27 @@ public class PlayManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0 && MapManager.instance.selectedTile.tileState == MapManager.TileState.Wall)
         {
-            BuildManager.instance.SpawnDefaultTower(MapManager.instance.selectedTile);
+            SpawnManager.instance.SpawnDefaultTower(MapManager.instance.selectedTile);
         }
 
         if (Input.GetKeyDown(KeyCode.X) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0 && MapManager.instance.selectedTile.tileState == MapManager.TileState.Tower)
         {
-            BuildManager.instance.MergeTower(MapManager.instance.selectedTile.tower);
+            SpawnManager.instance.MergeTower(MapManager.instance.selectedTile.tower);
         }
 
         if (Input.GetKeyDown(KeyCode.Tab) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0)
         {
-            BuildManager.instance.DestroyObject(MapManager.instance.selectedTile);
+            SpawnManager.instance.DestroyObject(MapManager.instance.selectedTile);
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            StartCoroutine(SpawnManager.instance.SpawnRoundEnemy());
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            StartCoroutine(SpawnManager.instance.SpawnPathNotificator());
         }
     }
 }

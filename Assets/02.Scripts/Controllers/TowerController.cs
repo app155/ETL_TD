@@ -26,8 +26,8 @@ public class TowerController : MonoBehaviour
     [SerializeField] protected int level;
     public MapManager.TileInfo tileBelong;
 
-    public float _atk;
-    [SerializeField] protected float _atkBase;
+    public int _atk;
+    [SerializeField] protected int _atkBase;
     [SerializeField] protected float _atkRange;
     [SerializeField] protected float _atkTime;
     [SerializeField] protected float _atkTimer;
@@ -42,17 +42,12 @@ public class TowerController : MonoBehaviour
 
     void Start()
     {
-        _atkTimer = _atkTime;
+
     }
 
     void Update()
     {
-        _atkTimer -= Time.deltaTime;
 
-        if (_target != null && _atkTimer <= 0.0f)
-        {
-            LaunchMissle();
-        }
     }
 
     private void FixedUpdate()
@@ -62,13 +57,7 @@ public class TowerController : MonoBehaviour
             _target = Search();
         }
 
-        else
-        {
-            if (Vector2.Distance(_target.position, transform.position) > _atkRange)
-            {
-                _target = null;
-            }
-        }
+        LaunchMissle();
     }
 
     Transform Search()
@@ -87,8 +76,24 @@ public class TowerController : MonoBehaviour
 
     void LaunchMissle()
     {
-        BuildManager.instance.SpawnMissle(this);
-        _atkTimer = _atkTime;
+        _atkTimer -= Time.fixedDeltaTime;
+
+        if (_target == null)
+        {
+            return;
+        }
+
+        if (_target.gameObject.activeSelf == false || Vector2.Distance(transform.position, _target.position) > _atkRange)
+        {
+            _target = null;
+            return;
+        }
+
+        if (_atkTimer <= 0.0f)
+        {
+            SpawnManager.instance.SpawnMissle(this);
+            _atkTimer = _atkTime;
+        }
     }
 
     public void SetUp(int id)

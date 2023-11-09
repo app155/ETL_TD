@@ -10,7 +10,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float _enemySpawnTimer;
     [SerializeField] private float _enemySpawnTime;
 
-    public Action onRoundSpawnFinish;
+    private bool _canSpawn => GameManager.instance.gamePhase == GamePhase.DefensePhase;
 
     void Start()
     {
@@ -19,14 +19,18 @@ public class EnemySpawner : MonoBehaviour
 
     void Update()
     {
-        SpawnEnemy();
+
     }
 
     public void SpawnEnemy()
     {
+        if (!_canSpawn)
+        {
+            return;
+        }
+
         if (_enemySpawnCount >= _enemySpawnCountMax)
         {
-            onRoundSpawnFinish?.Invoke();
             return;
         }
 

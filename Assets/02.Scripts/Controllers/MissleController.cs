@@ -7,7 +7,7 @@ public class MissleController : MonoBehaviour
     public TowerController _owner;
     public AttackType attackType;
 
-    public float _atk;
+    public int _atk;
     public float _moveSpeed;
     public Transform _target;
     [SerializeField] private Vector2 _targetPos;
@@ -48,6 +48,9 @@ public class MissleController : MonoBehaviour
     void RefreshTargetPosition()
     {
         _targetPos = _target.position;
+
+        if (_target.gameObject.activeSelf == false)
+            _target = null;
     }
 
     void Follow(Vector2 targetPos)
@@ -71,8 +74,11 @@ public class MissleController : MonoBehaviour
 
     void Fire()
     {
-        // deal damage
-        // effect
+        if (_target != null)
+        {
+            _target.GetComponent<EnemyController>().DepleteHp(_atk);
+        }
+        
         gameObject.SetActive(false);
     }
 }

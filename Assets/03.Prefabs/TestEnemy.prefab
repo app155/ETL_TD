@@ -165,4 +165,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 3
   _step: 0
+  _hpMax: 20
   nextPos: {x: 0, y: 0, z: 0}

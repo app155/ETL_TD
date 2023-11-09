@@ -3,15 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GamePhase
+{
+    None,
+    BuildPhase,
+    DefensePhase,
+}
+
 public class GameManager : MonoBehaviour
 {
-    public enum GamePhase
-    {
-        None,
-        BuildPhase,
-        DefensePhase,
-    }
-
     public static GameManager instance
     {
         get
@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
         set
         {
             _gold = value;
-            onGoldChanged?.Invoke(value);
+            onGoldChanged?.Invoke();
         }
     }
 
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    [SerializeField] private GamePhase gamePhase;
+    public GamePhase gamePhase;
 
     private static GameManager _instance;
     [SerializeField] private int _initialGold;
@@ -58,12 +58,13 @@ public class GameManager : MonoBehaviour
     public int round;
     private int roundMax;
 
-    public Action<int> onGoldChanged;
+
+    public Action onGoldChanged;
     public Action onLifeDepleted;
 
     private void Awake()
     {
-        
+        _instance = this;
     }
 
     void Start()
@@ -80,5 +81,8 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftControl))
             PoolManager.instance.Get((int)PoolTag.Enemy);
+
+        if (Input.GetKeyDown(KeyCode.P))
+            Debug.Log(gamePhase);
     }
 }

@@ -1,30 +1,68 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class BuildManager
+public class SpawnManager
 {
-    public static BuildManager instance
+    public static SpawnManager instance
     {
         get
         {
             if (_instance == null)
             {
-                _instance = new BuildManager();
+                _instance = new SpawnManager();
             }
 
             return _instance;
         }
     }
 
-    private static BuildManager _instance;
+    public int enemyRemainCount
+    {
+        get
+        {
+            return _enemyRemainCount;
+        }
+
+        set
+        {
+            _enemyRemainCount = value;
+
+            if (_enemyRemainCount <= 0)
+            {
+                GameManager.instance.gamePhase = GamePhase.BuildPhase;
+                GameManager.instance.round++;
+                Debug.Log($"gamephase to buildphase & Round Advance {GameManager.instance.round}");
+            }
+        }
+    }
+
+    public Action onDefensePhaseStarted;
+
+    private int _enemyRemainCount;
+    private int _enemySpawnCountMax = 10;
+    private int _enemySpawnCount;
+    private float _enemySpawnTimer = 1.0f;
+
+    private static SpawnManager _instance;
     private Dictionary<int, List<TowerController>> towersInField = new Dictionary<int, List<TowerController>>();
 
     public void SpawnWall(MapManager.TileInfo selectedTile)
     {
+        if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
+        {
+            Debug.Log("웨이브중 벽 건설불가");
+            return;
+        }
+            
+
+        if (selectedTile.tileState != MapManager.TileState.Wall)
+            return;
+
         Wall wall = PoolManager.instance.Get((int)PoolTag.Wall).GetComponent<Wall>();
         wall.tileBelong = selectedTile;
         wall.transform.position = wall.tileBelong.tilePos;
@@ -35,6 +73,12 @@ public class BuildManager
 
     public void SpawnDefaultTower(MapManager.TileInfo selectedTile)
     {
+        if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
+        {
+            Debug.Log("웨이브중 타워 건설불가");
+            return;
+        }
+
         if (selectedTile.tileState != MapManager.TileState.Wall)
             return;
 
@@ -63,6 +107,12 @@ public class BuildManager
 
     public void MergeTower(TowerController selectedTower)
     {
+        if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
+        {
+            Debug.Log("웨이브중 타워 진화불가");
+            return;
+        }
+
         if (towersInField[selectedTower.id].Count <= 1)
         {
             Debug.Log("같은타워가업읍니다^^");
@@ -91,6 +141,12 @@ public class BuildManager
 
     public void DestroyObject(MapManager.TileInfo selectedTile)
     {
+        if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
+        {
+            Debug.Log("웨이브중 해체 불가");
+            return;
+        }
+
         switch ((int)selectedTile.tileState)
         {
             case 0:
@@ -106,5 +162,47 @@ public class BuildManager
                 break;
         }
         selectedTile.tileState -= 1;
+    }
+
+    public IEnumerator SpawnPathNotificator()
+    {
+        if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
+        {
+            yield break;
+        }
+
+        int index = 0;
+
+        while (index < MapManager.instance.path.Count)
+        {
+            GameObject item = PoolManager.instance.Get((int)PoolTag.PathNotificator);
+            item.transform.position = MapManager.instance.map[MapManager.instance.path[index][0], MapManager.instance.path[index][1]].tilePos;
+            index++;
+
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    public IEnumerator SpawnRoundEnemy()
+    {
+        if (GameManager.instance.gamePhase != GamePhase.DefensePhase)
+        {
+            Debug.Log("cannot spawnEnemy");
+            yield break;
+        }    
+
+        _enemyRemainCount = _enemySpawnCountMax;
+        yield return new WaitForSeconds(1.0f);
+
+        while (_enemySpawnCount < _enemySpawnCountMax)
+        {
+            PoolManager.instance.Get((int)PoolTag.Enemy);
+            _enemySpawnCount++;
+            Debug.Log(_enemySpawnCount);
+            yield return new WaitForSeconds(_enemySpawnTimer);
+        }
+
+        _enemySpawnCount = 0;
+        Debug.Log(_enemySpawnCount);
     }
 }
