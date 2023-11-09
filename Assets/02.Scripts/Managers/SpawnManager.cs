@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class SpawnManager
 {
@@ -55,19 +57,28 @@ public class SpawnManager
     {
         if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
         {
-            Debug.Log("웨이브중 벽 건설불가");
+            SpawnUITextNotification("웨이브 중 벽 건설이 불가능합니다.");
             return;
         }
             
-
         if (selectedTile.tileState != MapManager.TileState.Wall)
+        {
+            SpawnUITextNotification("벽은 빈 타일에만 건설 가능합니다.");
             return;
+        }
+
+        if (GameManager.instance.gold < 5)
+        {
+            SpawnUITextNotification("자원이 부족합니다.");
+            return;
+        }
 
         Wall wall = PoolManager.instance.Get((int)PoolTag.Wall).GetComponent<Wall>();
         wall.tileBelong = selectedTile;
         wall.transform.position = wall.tileBelong.tilePos;
         wall.tileBelong.tileState = MapManager.TileState.Wall;
         wall.tileBelong.wall = wall.GetComponent<Wall>();
+
         GameManager.instance.gold -= 5;
     }
 
@@ -75,18 +86,45 @@ public class SpawnManager
     {
         if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
         {
-            Debug.Log("웨이브중 타워 건설불가");
+            SpawnUITextNotification("웨이브중 타워 건설이 불가능합니다.");
             return;
         }
 
         if (selectedTile.tileState != MapManager.TileState.Wall)
+        {
+            SpawnUITextNotification("타워는 벽이 건설된 타일에만 건설 가능합니다.");
             return;
+        }
 
-        TowerController tower = PoolManager.instance.Get((int)PoolTag.Tower).GetComponent<TowerController>();
+        if (GameManager.instance.gold < 5)
+        {
+            SpawnUITextNotification("자원이 부족합니다.");
+            return;
+        }
+
+        int randomNum = Random.Range(0, 3);
+
+        TowerController tower;
+
+        switch (randomNum)
+        {
+            case 0:
+                tower = PoolManager.instance.Get((int)PoolTag.Tower).AddComponent<DiamondTowerController>();
+                break;
+            case 1:
+                tower = PoolManager.instance.Get((int)PoolTag.Tower).AddComponent<HexagonTowerController>();
+                break;
+            default:
+                tower = PoolManager.instance.Get((int)PoolTag.Tower).AddComponent<TriangleTowerController>();
+                break;
+        }
+
         tower.tileBelong = selectedTile;
         tower.gameObject.transform.position = tower.tileBelong.tilePos;
         tower.tileBelong.tileState = MapManager.TileState.Tower;
         tower.tileBelong.tower = tower;
+
+        tower.SetUp(randomNum);
 
         if (!towersInField.ContainsKey(tower.id))
         {
@@ -109,13 +147,19 @@ public class SpawnManager
     {
         if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
         {
-            Debug.Log("웨이브중 타워 진화불가");
+            SpawnUITextNotification("웨이브 중 타워를 진화시킬 수 없습니다.");
             return;
         }
 
         if (towersInField[selectedTower.id].Count <= 1)
         {
-            Debug.Log("같은타워가업읍니다^^");
+            SpawnUITextNotification("필드에 선택한 타워와 같은 종류의 타워가 없습니다.");
+            return;
+        }
+
+        if (3 * (selectedTower.level + 1) >= TowerData.instance.towerDataList.Count)
+        {
+            SpawnUITextNotification("최대 레벨에 도달한 타워입니다.");
             return;
         }
 
@@ -136,14 +180,22 @@ public class SpawnManager
         GameManager.instance.gold -= 5;
         mergedTower.gameObject.SetActive(false);
 
-        // 선택 타워 업
+        // Todo. 선택 타워 업
+        selectedTower.SetUp(Random.Range(3 * (selectedTower.level + 1), 3 * (selectedTower.level + 2)));
+
+        if (!towersInField.ContainsKey(selectedTower.id))
+        {
+            towersInField[selectedTower.id] = new List<TowerController>();
+        }
+
+        towersInField[selectedTower.id].Add(selectedTower);
     }
 
     public void DestroyObject(MapManager.TileInfo selectedTile)
     {
         if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
         {
-            Debug.Log("웨이브중 해체 불가");
+            SpawnUITextNotification("벽과 타워는 웨이브 중 파괴할 수 없습니다.");
             return;
         }
 
@@ -168,6 +220,7 @@ public class SpawnManager
     {
         if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
         {
+            SpawnUITextNotification("경로 확인은 준비 단계에서만 가능합니다.");
             yield break;
         }
 
@@ -204,5 +257,11 @@ public class SpawnManager
 
         _enemySpawnCount = 0;
         Debug.Log(_enemySpawnCount);
+    }
+
+    public void SpawnUITextNotification(string message)
+    {
+        Text text = PoolManager.instance.Get((int)PoolTag.UI_TextNotification).GetComponentInChildren<Text>();
+        text.text = message;
     }
 }

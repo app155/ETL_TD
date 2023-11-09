@@ -1,28 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UI_TextNotificator : MonoBehaviour
 {
     [SerializeField] private Text _textNotificator;
-    private Color _originColor;
+
+    [SerializeField] private float _time;
+    [SerializeField] private float _timer;
 
     void Awake()
     {
         _textNotificator = GetComponentInChildren<Text>();
-        _originColor = _textNotificator.color;
     }
 
     private void OnEnable()
     {
-        _textNotificator.color = _originColor;
+        _timer = _time;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position += Vector3.up * 0.05f * Time.deltaTime;
-        Color color = Color.black;
+        _timer -= Time.deltaTime;
+
+        if (_timer <= 0.0f)
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

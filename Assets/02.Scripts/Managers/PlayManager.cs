@@ -33,8 +33,6 @@ public class PlayManager : MonoBehaviour
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
 
-            // Debug.DrawRay(mousePos, Vector2.zero, Color.red, 1.0f);
-
             if (hit.collider != null)
             {
                 Vector3Int tpos = MapManager.instance.tilemap.WorldToCell(hit.point);
@@ -48,22 +46,29 @@ public class PlayManager : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0 && MapManager.instance.selectedTile.tileState == MapManager.TileState.None)
+        if (Input.GetKeyDown(KeyCode.Space) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0)
         {
-            if (MapManager.instance.PathFindbyBFS(MapManager.instance.selectedTile, MapManager.instance.map))
+            if (MapManager.instance.selectedTile.tileState == MapManager.TileState.None)
             {
-                SpawnManager.instance.SpawnWall(MapManager.instance.selectedTile);
+                if (MapManager.instance.PathFindbyBFS(MapManager.instance.selectedTile, MapManager.instance.map))
+                {
+                    SpawnManager.instance.SpawnWall(MapManager.instance.selectedTile);
+                }
 
-                Debug.Log($"Wall Created in {MapManager.instance.selectedTile.tileIndex[0]}, {MapManager.instance.selectedTile.tileIndex[1]}");
+                else
+                {
+                    SpawnManager.instance.SpawnUITextNotification("길을 막는 위치에 벽을 건설할 수 없습니다.");
+                }
             }
 
             else
             {
-                Debug.Log("길막임");
+                SpawnManager.instance.SpawnUITextNotification("벽은 빈 타일에만 건설 가능합니다.");
             }
+            
         }
 
-        if (Input.GetKeyDown(KeyCode.Z) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0 && MapManager.instance.selectedTile.tileState == MapManager.TileState.Wall)
+        if (Input.GetKeyDown(KeyCode.Z) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0)
         {
             SpawnManager.instance.SpawnDefaultTower(MapManager.instance.selectedTile);
         }

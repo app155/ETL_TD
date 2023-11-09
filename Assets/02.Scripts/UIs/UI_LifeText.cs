@@ -10,11 +10,7 @@ public class UI_LifeText : MonoBehaviour
     private void Awake()
     {
         _lifeText = GetComponent<Text>();
-    }
-
-    private void Start()
-    {
-        GameManager.instance.onLifeDepleted += () 
+        GameManager.instance.onLifeDepleted += ()
             => _lifeText.text = GameManager.instance.life.ToString();
     }
 }

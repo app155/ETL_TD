@@ -4,10 +4,11 @@ using UnityEngine;
 
 public enum TowerType
 {
+    //temp?
     None,
-    One,
-    Two,
-    Three,
+    Diamond,
+    Hexagon,
+    Triangle,
 }
 
 public enum AttackType
@@ -17,13 +18,13 @@ public enum AttackType
     Splash,
 }
 
-public class TowerController : MonoBehaviour
+public abstract class TowerController : MonoBehaviour
 {
-    [SerializeField] private TowerType _towerType;
+    [SerializeField] protected TowerType _towerType;
     public AttackType _attackType;
 
     public int id;
-    [SerializeField] protected int level;
+    public int level;
     public MapManager.TileInfo tileBelong;
 
     public int _atk;
@@ -34,23 +35,31 @@ public class TowerController : MonoBehaviour
 
     [SerializeField] protected int _upgrade;
     [SerializeField] protected int _upgradeMax;
-    [SerializeField] protected float _upgradeGain;
+    [SerializeField] protected int _upgradeMin;
+    [SerializeField] protected int _upgradeGain;
 
     public Transform _target;
     [SerializeField] protected MissleController _missle;
     [SerializeField] protected LayerMask _targetLayer;
+    protected SpriteRenderer _spriteRenderer;
+    protected Color _spriteColor;
 
-    void Start()
+    protected void Awake()
+    {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    protected void Start()
     {
 
     }
 
-    void Update()
+    protected void Update()
     {
 
     }
 
-    private void FixedUpdate()
+    protected void FixedUpdate()
     {
         if (_target == null)
         {
@@ -96,12 +105,20 @@ public class TowerController : MonoBehaviour
         }
     }
 
-    public void SetUp(int id)
+    public void SetUp(int randomNum)
     {
-
+        id = TowerData.instance.towerDataList[randomNum].id;
+        _towerType = TowerData.instance.towerDataList[randomNum].towerType;
+        _attackType = TowerData.instance.towerDataList[randomNum].attackType;
+        level = TowerData.instance.towerDataList[randomNum].level;
+        _atkBase = TowerData.instance.towerDataList[randomNum].atkBase;
+        _atkRange = TowerData.instance.towerDataList[randomNum].atkRange;
+        _atkTime = TowerData.instance.towerDataList[randomNum].atkTime;
+        _spriteRenderer.sprite = TowerData.instance.towerDataList[randomNum].sprite;
+        _spriteRenderer.color = TowerData.instance.towerDataList[randomNum].color;
     }
 
-    private void OnDrawGizmos()
+    protected void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _atkRange);

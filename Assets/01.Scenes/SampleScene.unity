@@ -169,7 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2
   _collectionCheck: 0
-  _prefab: {fileID: 7276833238173845238, guid: 4c8366217c144fa408e9645cc41406cf, type: 3}
+  _prefab: {fileID: 795086798645903201, guid: d3dbcf26cb4c3c342bab42fad72eb07a, type: 3}
   _count: 20
   _countMax: 50
 --- !u!1 &85869908
@@ -658,7 +658,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gamePhase: 0
-  _initialGold: 25
+  _initialGold: 900
   _initialLife: 20
   round: 0
 --- !u!1 &481643361
@@ -1099,12 +1099,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1237789135}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -729.16174, y: -449.703, z: 3.0502021}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1780901657}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1237789137
 MonoBehaviour:
@@ -6439,6 +6439,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lifeText: {fileID: 0}
+--- !u!1 &1780901656
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1780901657}
+  m_Layer: 0
+  m_Name: Datum
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1780901657
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780901656}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1237789136}
+  - {fileID: 2091693996}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1839619020
 GameObject:
   m_ObjectHideFlags: 0
@@ -6524,6 +6557,57 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2091693995
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2091693996}
+  - component: {fileID: 2091693997}
+  m_Layer: 0
+  m_Name: TowerData
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2091693996
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091693995}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1780901657}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2091693997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091693995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6177efacfc24d0478b7b175fcc19674, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerDataList:
+  - {fileID: 11400000, guid: 84b41f849277f044099351bad95df4a7, type: 2}
+  - {fileID: 11400000, guid: 126462f34402516479217fda1983c148, type: 2}
+  - {fileID: 11400000, guid: f12f06f036e52594babe92d99135ab91, type: 2}
+  - {fileID: 11400000, guid: fb5805a01ef453e43aecb0aaa84ab43e, type: 2}
+  - {fileID: 11400000, guid: e7287eaa9688dce479cba37e1acaea54, type: 2}
+  - {fileID: 11400000, guid: 9647e9aff67105641910663102607d80, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -6531,9 +6615,9 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 1563009806}
   - {fileID: 936118626}
-  - {fileID: 1237789136}
   - {fileID: 472141140}
   - {fileID: 650943851}
   - {fileID: 2006113243}
   - {fileID: 373936105}
   - {fileID: 1442269215}
+  - {fileID: 1780901657}

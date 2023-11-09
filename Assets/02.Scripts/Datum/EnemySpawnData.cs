@@ -7,5 +7,6 @@ public class EnemySpawnData : ScriptableObject
 {
     public int id;
     public float moveSpeed;
+    public int hpMax;
     public Sprite sprite;
 }

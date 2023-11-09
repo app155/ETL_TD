@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 787aa216ed20f5445b990708250851ee, type: 3}
-  m_Name: Enemy02
+  m_Name: Enemy04
   m_EditorClassIdentifier: 
-  id: 2
-  moveSpeed: 3
-  sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  id: 4
+  moveSpeed: 10
+  hpMax: 85
+  sprite: {fileID: 21300000, guid: 20d72bf528e9bc34b8346efae4e4f85c, type: 3}

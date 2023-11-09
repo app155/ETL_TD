@@ -58,11 +58,13 @@ public class EnemyController : MonoBehaviour
     public void SetUp()
     {
         path = new List<int[]>(MapManager.instance.path);
+        _spriteRenderer.sprite = RoundEnemyData.instance.enemyDataList[GameManager.instance.round].sprite;
+        _moveSpeed = RoundEnemyData.instance.enemyDataList[GameManager.instance.round].moveSpeed;
+        _hpMax = RoundEnemyData.instance.enemyDataList[GameManager.instance.round].hpMax;
         _hp = _hpMax;
         _step = 0;
         transform.position = new Vector2(-8.5f, 4.5f);
-        _spriteRenderer.sprite = RoundEnemyData.instance.enemyDataList[GameManager.instance.round].sprite;
-        _moveSpeed = RoundEnemyData.instance.enemyDataList[GameManager.instance.round].moveSpeed;
+        
     }
 
     void MoveByPath()
