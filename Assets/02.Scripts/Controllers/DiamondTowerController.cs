@@ -12,16 +12,19 @@ public class DiamondTowerController : TowerController, IUpgrade<TowerType>
         set 
         { 
             _upgrade = Mathf.Clamp(value, upgradeMin, upgradeMax);
-            onTriangleUpgraded?.Invoke();
         }
     }
 
-    public int upgradeMax { get => upgradeMax; }
-    public int upgradeMin { get => upgradeMin; }
-    public int upgradeGain { get => upgradeGain; }
+    public int upgradeMax { get => _upgradeMax; }
+    public int upgradeMin { get => _upgradeMin; }
+    public int upgradeGain { get => _upgradeGain; }
 
-    public event Action onTriangleUpgraded;
+    public override void SetUp(int randomNum)
+    {
+        base.SetUp(randomNum);
 
+        _towerType = TowerType.Diamond;
+    }
     public void Upgrade()
     {
         upgrade++;

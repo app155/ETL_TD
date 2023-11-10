@@ -27,15 +27,15 @@ public abstract class TowerController : MonoBehaviour
     public int level;
     public MapManager.TileInfo tileBelong;
 
-    public int _atk;
+    public int _atk => _atkBase + _upgrade * _upgradeGain;
     [SerializeField] protected int _atkBase;
     [SerializeField] protected float _atkRange;
     [SerializeField] protected float _atkTime;
     [SerializeField] protected float _atkTimer;
 
     [SerializeField] protected int _upgrade;
-    [SerializeField] protected int _upgradeMax;
-    [SerializeField] protected int _upgradeMin;
+    [SerializeField] protected int _upgradeMax = 255;
+    [SerializeField] protected int _upgradeMin = 0;
     [SerializeField] protected int _upgradeGain;
 
     public Transform _target;
@@ -59,7 +59,7 @@ public abstract class TowerController : MonoBehaviour
 
     }
 
-    protected void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (_target == null)
         {
@@ -69,7 +69,7 @@ public abstract class TowerController : MonoBehaviour
         LaunchMissle();
     }
 
-    Transform Search()
+    protected Transform Search()
     {
         RaycastHit2D[] hit = Physics2D.CircleCastAll(transform.position, _atkRange, Vector2.zero, 0.0f, _targetLayer);
 
@@ -83,7 +83,7 @@ public abstract class TowerController : MonoBehaviour
         return null;
     }
 
-    void LaunchMissle()
+    protected void LaunchMissle()
     {
         _atkTimer -= Time.fixedDeltaTime;
 
@@ -105,10 +105,10 @@ public abstract class TowerController : MonoBehaviour
         }
     }
 
-    public void SetUp(int randomNum)
+    //adsfsafdsafdsaf
+    public virtual void SetUp(int randomNum)
     {
         id = TowerData.instance.towerDataList[randomNum].id;
-        _towerType = TowerData.instance.towerDataList[randomNum].towerType;
         _attackType = TowerData.instance.towerDataList[randomNum].attackType;
         level = TowerData.instance.towerDataList[randomNum].level;
         _atkBase = TowerData.instance.towerDataList[randomNum].atkBase;
@@ -116,6 +116,7 @@ public abstract class TowerController : MonoBehaviour
         _atkTime = TowerData.instance.towerDataList[randomNum].atkTime;
         _spriteRenderer.sprite = TowerData.instance.towerDataList[randomNum].sprite;
         _spriteRenderer.color = TowerData.instance.towerDataList[randomNum].color;
+        _targetLayer = TowerData.instance.towerDataList[randomNum].targetLayer;
     }
 
     protected void OnDrawGizmos()

@@ -59,12 +59,18 @@ public class GameManager : MonoBehaviour
     private int roundMax;
 
 
-    public Action onGoldChanged;
-    public Action onLifeDepleted;
+    public event Action onGoldChanged;
+    public event Action onLifeDepleted;
+    public event Action onDefencePhaseEnded;
 
     private void Awake()
     {
         _instance = this;
+        onDefencePhaseEnded += () =>
+        {
+            gamePhase = GamePhase.BuildPhase;
+            round++;
+        };
     }
 
     void Start()
@@ -84,5 +90,10 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P))
             Debug.Log(gamePhase);
+    }
+
+    public void EndDefensePhase()
+    {
+        onDefencePhaseEnded?.Invoke();
     }
 }

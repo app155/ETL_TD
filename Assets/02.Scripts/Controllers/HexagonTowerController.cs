@@ -12,7 +12,6 @@ public class HexagonTowerController : TowerController, IUpgrade<TowerType>
         set 
         { 
             _upgrade = Mathf.Clamp(value, upgradeMin, upgradeMax);
-            onTriangleUpgraded?.Invoke();
         }
     }
 
@@ -20,7 +19,12 @@ public class HexagonTowerController : TowerController, IUpgrade<TowerType>
     public int upgradeMin { get => _upgradeMin; }
     public int upgradeGain { get => _upgradeGain; }
 
-    public event Action onTriangleUpgraded;
+    public override void SetUp(int randomNum)
+    {
+        base.SetUp(randomNum);
+
+        _towerType = TowerType.Hexagon;
+    }
 
     public void Upgrade()
     {

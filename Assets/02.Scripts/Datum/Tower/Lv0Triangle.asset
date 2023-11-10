@@ -20,5 +20,8 @@ MonoBehaviour:
   atkRange: 1
   atkTime: 2
   upgradeGain: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 1024
   sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
   color: {r: 0.6, g: 0.99607843, b: 1, a: 1}

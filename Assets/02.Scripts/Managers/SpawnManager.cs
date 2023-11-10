@@ -36,8 +36,7 @@ public class SpawnManager
 
             if (_enemyRemainCount <= 0)
             {
-                GameManager.instance.gamePhase = GamePhase.BuildPhase;
-                GameManager.instance.round++;
+                GameManager.instance.EndDefensePhase();
                 Debug.Log($"gamephase to buildphase & Round Advance {GameManager.instance.round}");
             }
         }
@@ -51,7 +50,7 @@ public class SpawnManager
     private float _enemySpawnTimer = 1.0f;
 
     private static SpawnManager _instance;
-    private Dictionary<int, List<TowerController>> towersInField = new Dictionary<int, List<TowerController>>();
+    public Dictionary<int, List<TowerController>> towersInField = new Dictionary<int, List<TowerController>>();
 
     public void SpawnWall(MapManager.TileInfo selectedTile)
     {
@@ -181,7 +180,23 @@ public class SpawnManager
         mergedTower.gameObject.SetActive(false);
 
         // Todo. 선택 타워 업
-        selectedTower.SetUp(Random.Range(3 * (selectedTower.level + 1), 3 * (selectedTower.level + 2)));
+        int randomNum = Random.Range(3 * (selectedTower.level + 1), 3 * (selectedTower.level + 2));
+        selectedTower.gameObject.SetActive(false);
+
+        switch (randomNum % 3)
+        {
+            case 0:
+                selectedTower = PoolManager.instance.Get((int)PoolTag.Tower).AddComponent<DiamondTowerController>();
+                break;
+            case 1:
+                selectedTower = PoolManager.instance.Get((int)PoolTag.Tower).AddComponent<HexagonTowerController>();
+                break;
+            default:
+                selectedTower = PoolManager.instance.Get((int)PoolTag.Tower).AddComponent<TriangleTowerController>();
+                break;
+        }
+
+        selectedTower.SetUp(randomNum);
 
         if (!towersInField.ContainsKey(selectedTower.id))
         {

@@ -101,7 +101,7 @@ MonoBehaviour:
   _owner: {fileID: 0}
   attackType: 1
   _atk: 0
-  _moveSpeed: 50
+  _moveSpeed: 40
   _target: {fileID: 0}
   _targetPos: {x: 0, y: 0}
 --- !u!50 &8826445397468933963

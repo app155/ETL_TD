@@ -92,5 +92,10 @@ public class PlayManager : MonoBehaviour
         {
             StartCoroutine(SpawnManager.instance.SpawnPathNotificator());
         }
+
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            UpgradeManager.instance.Upgrade<DiamondTowerController>();
+        }
     }
 }

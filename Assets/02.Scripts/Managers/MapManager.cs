@@ -43,9 +43,22 @@ public class MapManager : MonoBehaviour
     public Tilemap tilemap;
     private Vector3 _cellSize;
     public TileInfo[,] map;
-    public TileInfo selectedTile;
+    public TileInfo selectedTile
+    {
+        get { return _selectedTile; }
+        set
+        {
+            if (value == _selectedTile)
+                return;
 
+            _selectedTile = value;
+            onSelectedTileChanged?.Invoke();
+        }
+    }
+
+    private TileInfo _selectedTile;
     public List<int[]> path;
+    public Action onSelectedTileChanged;
 
     private void Awake()
     {
@@ -119,9 +132,17 @@ public class MapManager : MonoBehaviour
 
     public bool PathFindbyBFS(TileInfo tileToTry, TileInfo[,] map, bool isInit = false)
     {
-        if (tileToTry.tileIndex[0] == 0 && tileToTry.tileIndex[1] == 0 && isInit == false)
-            return false;
+        //if (tileToTry.tileIndex[0] == 0 && tileToTry.tileIndex[1] == 0 && isInit == false)
+        //{
+        //    return false;
+        //}
 
+        if (isInit == false &&
+            ((tileToTry.tileIndex[0] == 0 && tileToTry.tileIndex[1] == 0) ||
+            (tileToTry.tileIndex[0] == map.GetLength(0) - 1 && tileToTry.tileIndex[1] == map.GetLength(1) - 1)))
+        {
+            return false;
+        }
 
         if (isInit == false)
         {
