@@ -36,11 +36,14 @@ public class PlayManager : MonoBehaviour
             if (hit.collider != null)
             {
                 Vector3Int tpos = MapManager.instance.tilemap.WorldToCell(hit.point);
-                Debug.Log(tpos);
-                Debug.Log($"12123123,{MapManager.instance.tilemap.size.y / 2 - tpos.y - 1}, {MapManager.instance.tilemap.size.x / 2 + tpos.x}");
-                Debug.Log(MapManager.instance.map[MapManager.instance.tilemap.size.y / 2 - tpos.y - 1, MapManager.instance.tilemap.size.x / 2 + tpos.x].tilePos);
+                Debug.Log($"tpos : {tpos}");
+                Debug.Log($"origin : {MapManager.instance.tilemap.origin}");
+                Debug.Log($"12123123,{MapManager.instance.tilemap.size.y - (tpos.y - MapManager.instance.tilemap.origin.y + 1)}, {tpos.x - MapManager.instance.tilemap.origin.x}");
 
-                MapManager.instance.selectedTile = MapManager.instance.map[MapManager.instance.tilemap.size.y / 2 - tpos.y - 1, MapManager.instance.tilemap.size.x / 2 + tpos.x];
+                MapManager.instance.selectedTile = MapManager.instance.map[MapManager.instance.tilemap.size.y - (tpos.y - MapManager.instance.tilemap.origin.y + 1), tpos.x - MapManager.instance.tilemap.origin.x];
+
+                Debug.Log($"{MapManager.instance.selectedTile.tileIndex[0]} {MapManager.instance.selectedTile.tileIndex[1]}");
+                Debug.Log(MapManager.instance.selectedTile.tilePos);
 
                 Debug.Log($"TileState : {MapManager.instance.selectedTile.tileState}");
             }

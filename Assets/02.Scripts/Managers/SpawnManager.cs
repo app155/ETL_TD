@@ -43,6 +43,8 @@ public class SpawnManager
     }
 
     public Action onDefensePhaseStarted;
+    public Action onTowerSpawned;
+    public Action onTowerDestroyed;
 
     private int _enemyRemainCount;
     private int _enemySpawnCountMax = 10;
@@ -131,6 +133,8 @@ public class SpawnManager
         }
 
         towersInField[tower.id].Add(tower);
+
+        onTowerSpawned?.Invoke();
         
         GameManager.instance.gold -= 5;
     }
@@ -163,6 +167,7 @@ public class SpawnManager
         }
 
         TowerController mergedTower = null;
+        MapManager.TileInfo tile = selectedTower.tileBelong;
 
         for (int i = 0; i < towersInField[selectedTower.id].Count; i++)
         {
@@ -177,6 +182,7 @@ public class SpawnManager
         }
 
         GameManager.instance.gold -= 5;
+        mergedTower.tileBelong.tower = null;
         mergedTower.gameObject.SetActive(false);
 
         // Todo. 선택 타워 업
@@ -196,12 +202,15 @@ public class SpawnManager
                 break;
         }
 
+        tile.tower = selectedTower;
         selectedTower.SetUp(randomNum);
 
         if (!towersInField.ContainsKey(selectedTower.id))
         {
             towersInField[selectedTower.id] = new List<TowerController>();
         }
+
+        onTowerSpawned?.Invoke();
 
         towersInField[selectedTower.id].Add(selectedTower);
     }
@@ -223,6 +232,7 @@ public class SpawnManager
                 break;
             case 2:
                 selectedTile.tower.gameObject.SetActive(false);
+                onTowerDestroyed?.Invoke();
                 break;
             default:
                 Console.WriteLine("DestroyObject invalid Input ㅁㄴㅇㄹㄹㄴㅁㄻㄴㅇㄻㄴㄻ");

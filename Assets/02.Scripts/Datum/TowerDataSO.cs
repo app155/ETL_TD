@@ -12,7 +12,7 @@ public class TowerDataSO : ScriptableObject
     public int atkBase;
     public float atkRange;
     public float atkTime;
-    public float upgradeGain;
+    public int upgradeGain;
     public LayerMask targetLayer;
     public Sprite sprite;
     public Color color;

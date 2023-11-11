@@ -95,4 +95,52 @@ public class UpgradeManager
         onUpgradeDone?.Invoke();
         Debug.Log($"upgraded diamond");
     }
+
+    public void UpgradeHexagonTower()
+    {
+        if (GameManager.instance.gold < (hexagonUpgrade + 1) * 5)
+            return;
+
+        for (int i = 0; i < SpawnManager.instance.towersInField.Keys.Count; i++)
+        {
+            for (int j = 0; j < SpawnManager.instance.towersInField[i].Count; j++)
+            {
+                TowerController tower = SpawnManager.instance.towersInField[i][j];
+
+                if (tower is HexagonTowerController)
+                {
+                    tower.Upgrade();
+                }
+            }
+        }
+
+        GameManager.instance.gold -= (hexagonUpgrade + 1) * 5;
+        hexagonUpgrade++;
+        onUpgradeDone?.Invoke();
+        Debug.Log($"upgraded hexagon");
+    }
+
+    public void UpgradeTriangleTower()
+    {
+        if (GameManager.instance.gold < (triangleUpgrade + 1) * 5)
+            return;
+
+        for (int i = 0; i < SpawnManager.instance.towersInField.Keys.Count; i++)
+        {
+            for (int j = 0; j < SpawnManager.instance.towersInField[i].Count; j++)
+            {
+                TowerController tower = SpawnManager.instance.towersInField[i][j];
+
+                if (tower is TriangleTowerController)
+                {
+                    tower.Upgrade();
+                }
+            }
+        }
+
+        GameManager.instance.gold -= (triangleUpgrade + 1) * 5;
+        triangleUpgrade++;
+        onUpgradeDone?.Invoke();
+        Debug.Log($"upgraded triangle");
+    }
 }

@@ -74,7 +74,7 @@ public class MapManager : MonoBehaviour
         {
             for (int j = 0; j < tilemap.size.x; j += (int)_cellSize.x)
             {
-                Vector3Int pos = new Vector3Int(j - tilemap.size.x / 2, tilemap.size.y / 2 - i, 0);
+                Vector3Int pos = new Vector3Int(tilemap.origin.x + j, tilemap.origin.y - i + tilemap.size.y, 0);
 
                 map[i, j] = new TileInfo()
                 {

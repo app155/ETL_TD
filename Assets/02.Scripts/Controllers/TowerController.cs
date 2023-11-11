@@ -23,13 +23,13 @@ public abstract class TowerController : MonoBehaviour, IUpgrade<TowerType>
     public TowerType towerType => _towerType;
 
     [SerializeField] protected TowerType _towerType;
-    public AttackType _attackType;
+    public AttackType attackType;
 
     public int id;
     public int level;
     public MapManager.TileInfo tileBelong;
 
-    public int _atk => _atkBase + _upgrade * _upgradeGain;
+    public int atk => _atkBase + _upgrade * _upgradeGain;
     [SerializeField] protected int _atkBase;
     [SerializeField] protected float _atkRange;
     [SerializeField] protected float _atkTime;
@@ -129,11 +129,12 @@ public abstract class TowerController : MonoBehaviour, IUpgrade<TowerType>
     public virtual void SetUp(int randomNum)
     {
         id = TowerData.instance.towerDataList[randomNum].id;
-        _attackType = TowerData.instance.towerDataList[randomNum].attackType;
+        attackType = TowerData.instance.towerDataList[randomNum].attackType;
         level = TowerData.instance.towerDataList[randomNum].level;
         _atkBase = TowerData.instance.towerDataList[randomNum].atkBase;
         _atkRange = TowerData.instance.towerDataList[randomNum].atkRange;
         _atkTime = TowerData.instance.towerDataList[randomNum].atkTime;
+        _upgradeGain = TowerData.instance.towerDataList[randomNum].upgradeGain;
         _spriteRenderer.sprite = TowerData.instance.towerDataList[randomNum].sprite;
         _spriteRenderer.color = TowerData.instance.towerDataList[randomNum].color;
         _targetLayer = TowerData.instance.towerDataList[randomNum].targetLayer;

@@ -22,7 +22,12 @@ public class MissleController : MonoBehaviour
 
     private void Start()
     {
-        _atk = _owner._atk;
+        
+    }
+
+    private void OnEnable()
+    {
+        SetUp();
     }
 
     private void Update()
@@ -38,9 +43,10 @@ public class MissleController : MonoBehaviour
         Follow(_targetPos);
     }
 
-    public void SetUp()
+    public virtual void SetUp()
     {
         transform.position = _owner.transform.position;
+        _atk = _owner.atk;
         _target = _owner._target;
         _targetPos = _target.position;
     }
@@ -72,13 +78,8 @@ public class MissleController : MonoBehaviour
         }
     }
 
-    void Fire()
+    protected virtual void Fire()
     {
-        if (_target != null)
-        {
-            _target.GetComponent<EnemyController>().DepleteHp(_atk);
-        }
-        
         gameObject.SetActive(false);
     }
 }
