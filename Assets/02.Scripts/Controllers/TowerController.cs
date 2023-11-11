@@ -18,8 +18,10 @@ public enum AttackType
     Splash,
 }
 
-public abstract class TowerController : MonoBehaviour
+public abstract class TowerController : MonoBehaviour, IUpgrade<TowerType>
 {
+    public TowerType towerType => _towerType;
+
     [SerializeField] protected TowerType _towerType;
     public AttackType _attackType;
 
@@ -32,6 +34,19 @@ public abstract class TowerController : MonoBehaviour
     [SerializeField] protected float _atkRange;
     [SerializeField] protected float _atkTime;
     [SerializeField] protected float _atkTimer;
+
+    public int upgrade
+    {
+        get { return _upgrade; }
+        set
+        {
+            _upgrade = Mathf.Clamp(value, upgradeMin, upgradeMax);
+        }
+    }
+
+    public int upgradeMax { get => _upgradeMax; }
+    public int upgradeMin { get => _upgradeMin; }
+    public int upgradeGain { get => _upgradeGain; }
 
     [SerializeField] protected int _upgrade;
     [SerializeField] protected int _upgradeMax = 255;
@@ -67,6 +82,11 @@ public abstract class TowerController : MonoBehaviour
         }
 
         LaunchMissle();
+    }
+
+    public void Upgrade()
+    {
+        upgrade++;
     }
 
     protected Transform Search()

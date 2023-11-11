@@ -23,47 +23,76 @@ public class UpgradeManager
     public int diamondUpgrade;
     public int hexagonUpgrade;
     public int triangleUpgrade;
-    
 
-    public void Upgrade<T>()
-        where T : IUpgrade<TowerType>
+    public event Action onUpgradeDone;
+
+    //public void Upgrade<T>()
+    //    where T : IUpgrade<TowerType>
+    //{
+    //    bool upgradeDone = false;
+
+    //    for (int i = 0; i < SpawnManager.instance.towersInField.Keys.Count; i++)
+    //    {
+    //        for (int j = 0; j < SpawnManager.instance.towersInField[i].Count; j++)
+    //        {
+    //            if (SpawnManager.instance.towersInField[i][j] is not T tower)
+    //            {
+    //                continue;
+    //            }
+
+    //            if (!upgradeDone)
+    //            {
+    //                if (GameManager.instance.gold < (tower.upgrade + 1) * 5)
+    //                    return;
+
+    //                switch (tower.towerType)
+    //                {
+    //                    case TowerType.None:
+    //                        break;
+    //                    case TowerType.Diamond:
+    //                        diamondUpgrade++;
+    //                        break;
+    //                    case TowerType.Hexagon:
+    //                        hexagonUpgrade++;
+    //                        break;
+    //                    case TowerType.Triangle:
+    //                        triangleUpgrade++;
+    //                        break;
+    //                    default:
+    //                        break;
+    //                }
+
+    //                upgradeDone = true;
+    //            }
+
+    //            tower.Upgrade();
+    //            onUpgradeDone?.Invoke();
+    //            Debug.Log($"upgraded {tower}");
+    //        }
+    //    }
+    //}
+
+    public void UpgradeDiamondTower()
     {
-        bool upgradeDone = false;
+        if (GameManager.instance.gold < (diamondUpgrade + 1) * 5)
+            return;
 
         for (int i = 0; i < SpawnManager.instance.towersInField.Keys.Count; i++)
         {
             for (int j = 0; j < SpawnManager.instance.towersInField[i].Count; j++)
             {
-                if (SpawnManager.instance.towersInField[i][j] is not T tower)
+                TowerController tower = SpawnManager.instance.towersInField[i][j];
+
+                if (tower is DiamondTowerController)
                 {
-                    continue;
+                    tower.Upgrade();
                 }
-
-                if (!upgradeDone)
-                {
-                    switch (tower.towerType)
-                    {
-                        case TowerType.None:
-                            break;
-                        case TowerType.Diamond:
-                            diamondUpgrade++;
-                            break;
-                        case TowerType.Hexagon:
-                            hexagonUpgrade++;
-                            break;
-                        case TowerType.Triangle:
-                            triangleUpgrade++;
-                            break;
-                        default:
-                            break;
-                    }
-
-                    upgradeDone = true;
-                }
-
-                tower.Upgrade();
-                Debug.Log($"upgraded {tower}");
             }
         }
+
+        GameManager.instance.gold -= (diamondUpgrade + 1) * 5;
+        diamondUpgrade++;
+        onUpgradeDone?.Invoke();
+        Debug.Log($"upgraded diamond");
     }
 }

@@ -95,7 +95,7 @@ public class PlayManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.U))
         {
-            UpgradeManager.instance.Upgrade<DiamondTowerController>();
+            UpgradeManager.instance.UpgradeDiamondTower();
         }
     }
 }

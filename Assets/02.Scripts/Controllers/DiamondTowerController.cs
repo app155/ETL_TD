@@ -5,28 +5,11 @@ using UnityEngine;
 
 public class DiamondTowerController : TowerController, IUpgrade<TowerType>
 {
-    public TowerType towerType { get => _towerType; }
-    public int upgrade
-    {
-        get { return _upgrade; }
-        set 
-        { 
-            _upgrade = Mathf.Clamp(value, upgradeMin, upgradeMax);
-        }
-    }
-
-    public int upgradeMax { get => _upgradeMax; }
-    public int upgradeMin { get => _upgradeMin; }
-    public int upgradeGain { get => _upgradeGain; }
-
     public override void SetUp(int randomNum)
     {
         base.SetUp(randomNum);
 
         _towerType = TowerType.Diamond;
-    }
-    public void Upgrade()
-    {
-        upgrade++;
+        _upgrade = UpgradeManager.instance.diamondUpgrade;
     }
 }
