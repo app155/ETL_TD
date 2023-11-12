@@ -5,23 +5,32 @@ using UnityEngine.UI;
 
 public class PhaseButtonTest : MonoBehaviour
 {
-    Button button;
+    Button _button;
+    Text _text;
 
     // Start is called before the first frame update
     void Awake()
     {
-        button = GetComponent<Button>();
+        _button = GetComponent<Button>();
+        _text = GetComponentInChildren<Text>();
     }
 
     private void Start()
     {
-        button.onClick.AddListener(() =>
+        _text.text = "Round 1\nStart";
+
+        _button.onClick.AddListener(() =>
         {
             GameManager.instance.gamePhase = GamePhase.DefensePhase;
-            button.interactable = false;
-            StartCoroutine(SpawnManager.instance.SpawnRoundEnemy());
+            _button.interactable = false;
+            StartCoroutine(SpawnManager.instance.SpawnRoundEnemyRoutine());
         });
-        GameManager.instance.onDefencePhaseEnded += () => button.interactable = true;
+
+        GameManager.instance.onDefencePhaseEnded += () =>
+        {
+            _button.interactable = true;
+            _text.text = $"Round {GameManager.instance.round + 1}\nStart";
+        };
     }
 
     // Update is called once per frame

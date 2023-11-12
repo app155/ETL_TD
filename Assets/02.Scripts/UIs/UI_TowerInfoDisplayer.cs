@@ -23,7 +23,7 @@ public class UI_TowerInfoDisplayer : MonoBehaviour
                 _towerImage.sprite = TowerData.instance.towerDataList[_selectedtower.id].sprite;
                 _towerImage.color = TowerData.instance.towerDataList[_selectedtower.id].color;
                 _towerNameText.text = $"lv.{_selectedtower.level} {_selectedtower.towerType}";
-                _towerAtkText.text = _selectedtower.atk.ToString();
+                _towerAtkText.text = $"{_selectedtower.atk} + {_selectedtower.upgrade * _selectedtower.upgradeGain}";
                 _towerAtkRangeText.text = TowerData.instance.towerDataList[_selectedtower.id].atkRange.ToString();
                 _towerAtkSpeedText.text = TowerData.instance.towerDataList[_selectedtower.id].atkTime.ToString();
             }
@@ -52,7 +52,7 @@ public class UI_TowerInfoDisplayer : MonoBehaviour
             _towerImage.sprite = TowerData.instance.towerDataList[_selectedtower.id].sprite;
             _towerImage.color = TowerData.instance.towerDataList[_selectedtower.id].color;
             _towerNameText.text = $"lv.{_selectedtower.level} {_selectedtower.towerType}";
-            _towerAtkText.text = _selectedtower.atk.ToString();
+            _towerAtkText.text = $"{_selectedtower.atk} + {_selectedtower.upgrade * _selectedtower.upgradeGain}";
             _towerAtkRangeText.text = TowerData.instance.towerDataList[_selectedtower.id].atkRange.ToString();
             _towerAtkSpeedText.text = TowerData.instance.towerDataList[_selectedtower.id].atkTime.ToString();
         };

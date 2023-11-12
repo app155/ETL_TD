@@ -46,8 +46,10 @@ public class SpawnManager
     public Action onTowerSpawned;
     public Action onTowerDestroyed;
 
+    private bool _canNotifyPath = true;
+
     private int _enemyRemainCount;
-    private int _enemySpawnCountMax = 10;
+    private int _enemySpawnCountMax = 20;
     private int _enemySpawnCount;
     private float _enemySpawnTimer = 1.0f;
 
@@ -85,11 +87,11 @@ public class SpawnManager
 
     public void SpawnDefaultTower(MapManager.TileInfo selectedTile)
     {
-        if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
-        {
-            SpawnUITextNotification("웨이브중 타워 건설이 불가능합니다.");
-            return;
-        }
+        //if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
+        //{
+        //    SpawnUITextNotification("웨이브중 타워 건설이 불가능합니다.");
+        //    return;
+        //}
 
         if (selectedTile.tileState != MapManager.TileState.Wall)
         {
@@ -148,11 +150,11 @@ public class SpawnManager
 
     public void MergeTower(TowerController selectedTower)
     {
-        if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
-        {
-            SpawnUITextNotification("웨이브 중 타워를 진화시킬 수 없습니다.");
-            return;
-        }
+        //if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
+        //{
+        //    SpawnUITextNotification("웨이브 중 타워를 진화시킬 수 없습니다.");
+        //    return;
+        //}
 
         if (towersInField[selectedTower.id].Count <= 1)
         {
@@ -241,8 +243,14 @@ public class SpawnManager
         selectedTile.tileState -= 1;
     }
 
-    public IEnumerator SpawnPathNotificator()
+    public IEnumerator SpawnPathNotificatorRoutine()
     {
+        if (_canNotifyPath == false)
+        {
+            SpawnUITextNotification("경로 표시가 이미 진행중입니다.");
+            yield break;
+        }
+
         if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
         {
             SpawnUITextNotification("경로 확인은 준비 단계에서만 가능합니다.");
@@ -250,6 +258,7 @@ public class SpawnManager
         }
 
         int index = 0;
+        _canNotifyPath = false;
 
         while (index < MapManager.instance.path.Count)
         {
@@ -259,9 +268,11 @@ public class SpawnManager
 
             yield return new WaitForSeconds(0.1f);
         }
+
+        _canNotifyPath = true;
     }
 
-    public IEnumerator SpawnRoundEnemy()
+    public IEnumerator SpawnRoundEnemyRoutine()
     {
         if (GameManager.instance.gamePhase != GamePhase.DefensePhase)
         {

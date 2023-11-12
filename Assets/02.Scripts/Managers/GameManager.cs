@@ -8,6 +8,7 @@ public enum GamePhase
     None,
     BuildPhase,
     DefensePhase,
+    GameOver,
 }
 
 public class GameManager : MonoBehaviour
@@ -44,6 +45,11 @@ public class GameManager : MonoBehaviour
         {
             _life = value;
             onLifeDepleted?.Invoke();
+
+            if (_life <= 0)
+            {
+                onGameOver?.Invoke();
+            }
         }
     }
 
@@ -55,12 +61,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _initialLife;
     private int _life;
 
+
     public int round;
     private int roundMax;
 
 
     public event Action onGoldChanged;
     public event Action onLifeDepleted;
+    public event Action onGameOver;
     public event Action onDefencePhaseEnded;
 
     private void Awake()
@@ -70,6 +78,17 @@ public class GameManager : MonoBehaviour
         {
             gamePhase = GamePhase.BuildPhase;
             round++;
+
+            if (round > roundMax)
+            {
+                GameClear();
+            }    
+        };
+
+        onGameOver += () =>
+        {
+            gamePhase = GamePhase.GameOver;
+            Time.timeScale = 0.0f;
         };
     }
 
@@ -95,5 +114,10 @@ public class GameManager : MonoBehaviour
     public void EndDefensePhase()
     {
         onDefencePhaseEnded?.Invoke();
+    }
+
+    public void GameClear()
+    {
+
     }
 }

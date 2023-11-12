@@ -20,7 +20,6 @@ public class PlayManager : MonoBehaviour
 
     private static PlayManager _instance;
 
-
     void Start()
     {
         
@@ -28,6 +27,9 @@ public class PlayManager : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.instance.gamePhase == GamePhase.GameOver)
+            return;
+
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -88,17 +90,27 @@ public class PlayManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            StartCoroutine(SpawnManager.instance.SpawnRoundEnemy());
+            StartCoroutine(SpawnManager.instance.SpawnRoundEnemyRoutine());
         }
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            StartCoroutine(SpawnManager.instance.SpawnPathNotificator());
+            StartCoroutine(SpawnManager.instance.SpawnPathNotificatorRoutine());
         }
 
-        if (Input.GetKeyDown(KeyCode.U))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             UpgradeManager.instance.UpgradeDiamondTower();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            UpgradeManager.instance.UpgradeHexagonTower();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            UpgradeManager.instance.UpgradeTriangleTower();
         }
     }
 }
