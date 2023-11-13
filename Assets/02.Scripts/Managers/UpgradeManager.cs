@@ -29,7 +29,9 @@ public class UpgradeManager
     //public void Upgrade<T>()
     //    where T : IUpgrade<TowerType>
     //{
-    //    bool upgradeDone = false;
+    //    var type = typeof(T);
+
+
 
     //    for (int i = 0; i < SpawnManager.instance.towersInField.Keys.Count; i++)
     //    {
@@ -38,31 +40,6 @@ public class UpgradeManager
     //            if (SpawnManager.instance.towersInField[i][j] is not T tower)
     //            {
     //                continue;
-    //            }
-
-    //            if (!upgradeDone)
-    //            {
-    //                if (GameManager.instance.gold < (tower.upgrade + 1) * 5)
-    //                    return;
-
-    //                switch (tower.towerType)
-    //                {
-    //                    case TowerType.None:
-    //                        break;
-    //                    case TowerType.Diamond:
-    //                        diamondUpgrade++;
-    //                        break;
-    //                    case TowerType.Hexagon:
-    //                        hexagonUpgrade++;
-    //                        break;
-    //                    case TowerType.Triangle:
-    //                        triangleUpgrade++;
-    //                        break;
-    //                    default:
-    //                        break;
-    //                }
-
-    //                upgradeDone = true;
     //            }
 
     //            tower.Upgrade();
@@ -93,7 +70,7 @@ public class UpgradeManager
         GameManager.instance.gold -= (diamondUpgrade + 1) * 5;
         diamondUpgrade++;
         onUpgradeDone?.Invoke();
-        Debug.Log($"upgraded diamond");
+        Debug.Log($"upgrade diamond");
     }
 
     public void UpgradeHexagonTower()
@@ -117,7 +94,7 @@ public class UpgradeManager
         GameManager.instance.gold -= (hexagonUpgrade + 1) * 5;
         hexagonUpgrade++;
         onUpgradeDone?.Invoke();
-        Debug.Log($"upgraded hexagon");
+        Debug.Log($"upgrade hexagon");
     }
 
     public void UpgradeTriangleTower()
@@ -141,6 +118,6 @@ public class UpgradeManager
         GameManager.instance.gold -= (triangleUpgrade + 1) * 5;
         triangleUpgrade++;
         onUpgradeDone?.Invoke();
-        Debug.Log($"upgraded triangle");
+        Debug.Log($"upgrade triangle");
     }
 }

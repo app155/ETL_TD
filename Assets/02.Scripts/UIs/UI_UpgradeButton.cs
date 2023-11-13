@@ -19,13 +19,13 @@ public class UI_UpgradeButton : MonoBehaviour
             case TowerType.None:
                 break;
             case TowerType.Diamond:
-                _upgradeText.text = $"Diamond\n{UpgradeManager.instance.diamondUpgrade} ¡æ {UpgradeManager.instance.diamondUpgrade + 1}\n{(UpgradeManager.instance.diamondUpgrade + 1) * 5} Gold";
+                _upgradeText.text = $"Diamond\n{UpgradeManager.instance.diamondUpgrade} ¡æ {UpgradeManager.instance.diamondUpgrade + 1} \n {(UpgradeManager.instance.diamondUpgrade + 1) * 5} Gold";
                 break;
             case TowerType.Hexagon:
-                _upgradeText.text = $"Hexagon\n{UpgradeManager.instance.hexagonUpgrade} ¡æ {UpgradeManager.instance.hexagonUpgrade + 1}\n{(UpgradeManager.instance.hexagonUpgrade + 1) * 5} Gold";
+                _upgradeText.text = $"Hexagon\n{UpgradeManager.instance.hexagonUpgrade} ¡æ {UpgradeManager.instance.hexagonUpgrade + 1} \n {(UpgradeManager.instance.hexagonUpgrade + 1) * 5} Gold";
                 break;
             case TowerType.Triangle:
-                _upgradeText.text = $"Triangle\n{UpgradeManager.instance.triangleUpgrade} ¡æ {UpgradeManager.instance.triangleUpgrade + 1}\n{(UpgradeManager.instance.triangleUpgrade + 1) * 5} Gold";
+                _upgradeText.text = $"Triangle\n{UpgradeManager.instance.triangleUpgrade} ¡æ {UpgradeManager.instance.triangleUpgrade + 1}  \n  {(UpgradeManager.instance.triangleUpgrade + 1) * 5} Gold";
                 break;
         }
     }
@@ -41,18 +41,20 @@ public class UI_UpgradeButton : MonoBehaviour
                 {
                     UpgradeManager.instance.UpgradeDiamondTower();
                     _upgradeText.text = $"Diamond\n{UpgradeManager.instance.diamondUpgrade} ¡æ {UpgradeManager.instance.diamondUpgrade + 1}\n{(UpgradeManager.instance.diamondUpgrade + 1) * 5} Gold";
-                 });
+                });
                 break;
             case TowerType.Hexagon:
-                _button.onClick.AddListener(() => {
+                _button.onClick.AddListener(() =>
+                {
                     UpgradeManager.instance.UpgradeHexagonTower();
-                    _upgradeText.text = $"Hexagon\n{UpgradeManager.instance.hexagonUpgrade} ¡æ {UpgradeManager.instance.hexagonUpgrade + 1}\n{(UpgradeManager.instance.hexagonUpgrade + 1) * 5} Gold";
+                    _upgradeText.text = $"Hexagon\n{UpgradeManager.instance.hexagonUpgrade} ¡æ {UpgradeManager.instance.hexagonUpgrade + 1} \n {(UpgradeManager.instance.hexagonUpgrade + 1) * 5} Gold";
                 });
                 break;
             case TowerType.Triangle:
-                _button.onClick.AddListener(() => {
+                _button.onClick.AddListener(() =>
+                {
                     UpgradeManager.instance.UpgradeTriangleTower();
-                    _upgradeText.text = $"Triangle\n{UpgradeManager.instance.triangleUpgrade} ¡æ {UpgradeManager.instance.triangleUpgrade + 1}\n{(UpgradeManager.instance.triangleUpgrade + 1) * 5} Gold";
+                    _upgradeText.text = $"Triangle\n{UpgradeManager.instance.triangleUpgrade} ¡æ {UpgradeManager.instance.triangleUpgrade + 1}  \n  {(UpgradeManager.instance.triangleUpgrade + 1) * 5} Gold";
                 });
                 break;
         }

@@ -9,6 +9,7 @@ public enum GamePhase
     BuildPhase,
     DefensePhase,
     GameOver,
+    GameClear,
 }
 
 public class GameManager : MonoBehaviour
@@ -68,8 +69,9 @@ public class GameManager : MonoBehaviour
 
     public event Action onGoldChanged;
     public event Action onLifeDepleted;
-    public event Action onGameOver;
     public event Action onDefencePhaseEnded;
+    public event Action onGameOver;
+    public event Action onGameClear;
 
     private void Awake()
     {
@@ -88,6 +90,12 @@ public class GameManager : MonoBehaviour
         onGameOver += () =>
         {
             gamePhase = GamePhase.GameOver;
+            Time.timeScale = 0.0f;
+        };
+
+        onGameClear += () =>
+        {
+            gamePhase = GamePhase.GameClear;
             Time.timeScale = 0.0f;
         };
     }

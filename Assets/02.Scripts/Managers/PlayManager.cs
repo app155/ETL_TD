@@ -27,8 +27,10 @@ public class PlayManager : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.instance.gamePhase == GamePhase.GameOver)
+        if (GameManager.instance.gamePhase == GamePhase.GameOver || GameManager.instance.gamePhase == GamePhase.GameClear)
+        {
             return;
+        }
 
         if (Input.GetMouseButtonDown(0))
         {

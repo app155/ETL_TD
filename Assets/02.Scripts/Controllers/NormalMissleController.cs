@@ -7,7 +7,6 @@ public class NormalMissleController : MissleController
     public override void SetUp()
     {
         base.SetUp();
-        attackType = AttackType.Normal;
     }
 
     protected override void Fire()

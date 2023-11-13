@@ -27,7 +27,7 @@ public class MissleController : MonoBehaviour
 
     private void OnEnable()
     {
-        SetUp();
+        
     }
 
     private void Update()
@@ -47,6 +47,7 @@ public class MissleController : MonoBehaviour
     {
         transform.position = _owner.transform.position;
         _atk = _owner.atk;
+        attackType = _owner.attackType;
         _target = _owner._target;
         _targetPos = _target.position;
     }
