@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3356185824800501764}
   - component: {fileID: 4818840699487838594}
-  - component: {fileID: 577223432133483507}
   - component: {fileID: 8826445397468933963}
   m_Layer: 0
   m_Name: TestMissle
@@ -29,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -86,24 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &577223432133483507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5993115582338167374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a1ad466f4fb54545956439f9418cafe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _owner: {fileID: 0}
-  attackType: 1
-  _atk: 0
-  _moveSpeed: 40
-  _target: {fileID: 0}
-  _targetPos: {x: 0, y: 0}
 --- !u!50 &8826445397468933963
 Rigidbody2D:
   serializedVersion: 4

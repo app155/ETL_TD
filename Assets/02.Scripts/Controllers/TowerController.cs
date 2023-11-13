@@ -95,8 +95,6 @@ public abstract class TowerController : MonoBehaviour, IUpgrade<TowerType>
 
         if (hit.Length > 0)
         {
-            Debug.Log($"Enemy Found! Target : {hit[0].collider.name}");
-
             return hit[0].transform;
         }
 

@@ -34,7 +34,9 @@ public class SpawnManager
         {
             _enemyRemainCount = value;
 
-            if (_enemyRemainCount <= 0)
+            Debug.Log($"remaincount set! {_enemyRemainCount}");
+
+            if (_enemyRemainCount == 0)
             {
                 GameManager.instance.EndDefensePhase();
                 Debug.Log($"gamephase to buildphase & Round Advance {GameManager.instance.round}");
@@ -49,7 +51,7 @@ public class SpawnManager
     private bool _canNotifyPath = true;
 
     private int _enemyRemainCount;
-    private int _enemySpawnCountMax = 20;
+    private int _enemySpawnCountMax = 30;
     private int _enemySpawnCount;
     private float _enemySpawnTimer = 1.0f;
 
@@ -143,8 +145,23 @@ public class SpawnManager
 
     public void SpawnMissle(TowerController owner)
     {
-        MissleController missle = PoolManager.instance.Get((int)PoolTag.Missle).GetComponent<MissleController>();
-        missle._owner = owner;
+        MissleController missle;
+
+        switch (owner.attackType)
+        {
+            case AttackType.None:
+                return;
+            case AttackType.Normal:
+                missle = PoolManager.instance.Get((int)PoolTag.Missle).AddComponent<NormalMissleController>();
+                break;
+            case AttackType.Splash:
+                missle = PoolManager.instance.Get((int)PoolTag.Missle).AddComponent<SplashMissleController>();
+                break;
+            default:
+                return;
+        };
+
+        missle.owner = owner;
         missle.SetUp();
     }
 
@@ -187,7 +204,6 @@ public class SpawnManager
         mergedTower.tileBelong.tower = null;
         mergedTower.gameObject.SetActive(false);
 
-        // Todo. 선택 타워 업
         int randomNum = Random.Range(3 * (selectedTower.level + 1), 3 * (selectedTower.level + 2));
         selectedTower.gameObject.SetActive(false);
 
@@ -204,6 +220,7 @@ public class SpawnManager
                 break;
         }
 
+        selectedTower.tileBelong = tile;
         tile.tower = selectedTower;
         selectedTower.SetUp(randomNum);
 
@@ -287,12 +304,11 @@ public class SpawnManager
         {
             PoolManager.instance.Get((int)PoolTag.Enemy);
             _enemySpawnCount++;
-            Debug.Log(_enemySpawnCount);
             yield return new WaitForSeconds(_enemySpawnTimer);
         }
 
+        Debug.Log("Finish EnemySpawn");
         _enemySpawnCount = 0;
-        Debug.Log(_enemySpawnCount);
     }
 
     public void SpawnUITextNotification(string message)

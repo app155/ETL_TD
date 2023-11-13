@@ -11,7 +11,7 @@ public class NormalMissleController : MissleController
 
     protected override void Fire()
     {
-        if (_target != null)
+        if (_target.gameObject.activeSelf != false)
         {
             _target.GetComponent<EnemyController>().DepleteHp(_atk);
         }

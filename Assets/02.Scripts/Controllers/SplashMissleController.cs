@@ -5,12 +5,11 @@ using UnityEngine;
 public class SplashMissleController : MissleController
 {
     [SerializeField] private float _damageRange;
-    [SerializeField] private LayerMask _targetLayer => _owner._target.gameObject.layer;
 
     public override void SetUp()
     {
         base.SetUp();
-        // 데미지범위 데이터에서 받기
+        _damageRange = MissleData.instance.missleDataList[owner.id].damageRange;
     }
 
     protected override void Fire()

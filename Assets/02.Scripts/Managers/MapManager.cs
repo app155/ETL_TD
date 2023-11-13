@@ -92,51 +92,11 @@ public class MapManager : MonoBehaviour
 
     private void Update()
     {
-        // !Move to other Script!
 
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //    RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
-
-        //    Debug.DrawRay(mousePos, Vector2.zero, Color.red, 1.0f);
-
-        //    if (hit.collider != null)
-        //    {
-        //        Vector3Int tpos = _tilemap.WorldToCell(hit.point);
-        //        Debug.Log(tpos);
-        //        Debug.Log($"12123123,{_tilemap.size.y / 2 - tpos.y - 1}, {_tilemap.size.x / 2 + tpos.x}");
-        //        Debug.Log(_map[_tilemap.size.y / 2 - tpos.y - 1, _tilemap.size.x / 2 + tpos.x].tilePos);
-
-        //        selectedTile = _map[_tilemap.size.y / 2 - tpos.y - 1, _tilemap.size.x / 2 + tpos.x];
-
-        //        Debug.Log($"TileState : {selectedTile.tileState}");
-        //    }
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.Space) && Comparer.Default.Compare(selectedTile, default) != 0 && selectedTile.tileState == 0)
-        //{
-        //    if (PathFindbyBFS(selectedTile, _map))
-        //    {
-        //        SpawnManager.instance.SpawnWall(selectedTile.tileIndex[0], selectedTile.tileIndex[1]);
-
-        //        Debug.Log($"Wall Created in {selectedTile.tileIndex[0]}, {selectedTile.tileIndex[1]}");
-        //    }
-
-        //    else
-        //    {
-        //        Debug.Log("±Ê∏∑¿”");
-        //    }
-        //}
     }
 
     public bool PathFindbyBFS(TileInfo tileToTry, TileInfo[,] map, bool isInit = false)
     {
-        //if (tileToTry.tileIndex[0] == 0 && tileToTry.tileIndex[1] == 0 && isInit == false)
-        //{
-        //    return false;
-        //}
-
         if (isInit == false &&
             ((tileToTry.tileIndex[0] == 0 && tileToTry.tileIndex[1] == 0) ||
             (tileToTry.tileIndex[0] == map.GetLength(0) - 1 && tileToTry.tileIndex[1] == map.GetLength(1) - 1)))

@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
 
 
     public int round;
-    private int roundMax;
+    [SerializeField] private int _roundMax;
 
 
     public event Action onGoldChanged;
@@ -81,9 +81,9 @@ public class GameManager : MonoBehaviour
             gamePhase = GamePhase.BuildPhase;
             round++;
 
-            if (round > roundMax)
+            if (round > _roundMax)
             {
-                GameClear();
+                onGameClear?.Invoke();
             }    
         };
 

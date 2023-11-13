@@ -56,6 +56,9 @@ TagManager:
   - name: Missle
     uniqueID: 3487528333
     locked: 0
+  - name: MiniUI
+    uniqueID: 2343853647
+    locked: 0
   - name: Effect
     uniqueID: 844436861
     locked: 0

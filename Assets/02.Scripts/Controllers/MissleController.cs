@@ -4,20 +4,24 @@ using UnityEngine;
 
 public class MissleController : MonoBehaviour
 {
-    public TowerController _owner;
-    public AttackType attackType;
+    public TowerController owner;
+    protected AttackType _attackType;
 
+    public int id;
     public int _atk;
-    public float _moveSpeed;
+    protected float _moveSpeed;
     public Transform _target;
-    [SerializeField] private Vector2 _targetPos;
+    protected Vector2 _targetPos;
 
-    private Rigidbody2D _rigid;
+    protected Rigidbody2D _rigid;
+    protected LayerMask _targetLayer;
+    protected SpriteRenderer _spriteRenderer;
+    protected Color _color;
 
-
-    private void Awake()
+    protected void Awake()
     {
         _rigid = GetComponent<Rigidbody2D>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Start()
@@ -30,7 +34,7 @@ public class MissleController : MonoBehaviour
         
     }
 
-    private void Update()
+    protected void Update()
     {
         if (_target != null && _target.gameObject.activeSelf)
         {
@@ -38,21 +42,26 @@ public class MissleController : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    protected void FixedUpdate()
     {
         Follow(_targetPos);
     }
 
     public virtual void SetUp()
     {
-        transform.position = _owner.transform.position;
-        _atk = _owner.atk;
-        attackType = _owner.attackType;
-        _target = _owner._target;
+        transform.position = owner.transform.position;
+        _atk = owner.atk;
+        _attackType = owner.attackType;
+        _target = owner._target;
         _targetPos = _target.position;
+        id = MissleData.instance.missleDataList[owner.id].id;
+        _moveSpeed = MissleData.instance.missleDataList[id].moveSpeed;
+        _spriteRenderer.sprite = MissleData.instance.missleDataList[id].sprite;
+        _spriteRenderer.color = MissleData.instance.missleDataList[id].color;
+        _targetLayer = MissleData.instance.missleDataList[id].targetLayer;
     }
 
-    void RefreshTargetPosition()
+    protected void RefreshTargetPosition()
     {
         _targetPos = _target.position;
 
@@ -60,7 +69,7 @@ public class MissleController : MonoBehaviour
             _target = null;
     }
 
-    void Follow(Vector2 targetPos)
+    protected void Follow(Vector2 targetPos)
     {
         Vector2 expectedPos = (targetPos - _rigid.position).normalized * _moveSpeed * Time.fixedDeltaTime;
         float expectedDistance = expectedPos.magnitude;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,8 @@ public class EnemyController : MonoBehaviour
         {
             _hp = value;
 
+            onHpChanged?.Invoke();
+
             if (_hp <= 0)
             {
                 _hp = 0;
@@ -18,6 +21,8 @@ public class EnemyController : MonoBehaviour
             }
         }
     }
+
+    public int hpMax => _hpMax;
 
     private List<int[]> path;
     [SerializeField] private float _moveSpeed;
@@ -29,6 +34,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private Vector3 nextPos;
 
     private SpriteRenderer _spriteRenderer;
+
+    public event Action onHpChanged;
 
     private void Awake()
     {
@@ -64,7 +71,6 @@ public class EnemyController : MonoBehaviour
         _hp = _hpMax;
         _step = 0;
         transform.position = new Vector2(-8.5f, 4.5f);
-        
     }
 
     void MoveByPath()

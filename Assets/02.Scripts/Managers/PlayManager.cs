@@ -5,21 +5,6 @@ using UnityEngine;
 
 public class PlayManager : MonoBehaviour
 {
-    public static PlayManager instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = new GameObject("PlayManager").AddComponent<PlayManager>();
-            }
-
-            return _instance;
-        }
-    }
-
-    private static PlayManager _instance;
-
     void Start()
     {
         
@@ -31,6 +16,12 @@ public class PlayManager : MonoBehaviour
         {
             return;
         }
+
+        InputAction();
+    }
+
+    void InputAction()
+    {
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -72,7 +63,7 @@ public class PlayManager : MonoBehaviour
             {
                 SpawnManager.instance.SpawnUITextNotification("벽은 빈 타일에만 건설 가능합니다.");
             }
-            
+
         }
 
         if (Input.GetKeyDown(KeyCode.Z) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0)
