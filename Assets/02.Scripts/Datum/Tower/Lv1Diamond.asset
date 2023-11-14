@@ -17,9 +17,9 @@ MonoBehaviour:
   attackType: 1
   level: 1
   atkBase: 6
-  atkRange: 2.2
-  atkTime: 1
-  upgradeGain: 2
+  atkRange: 3.3
+  atkTime: 0.4
+  upgradeGain: 4
   targetLayer:
     serializedVersion: 2
     m_Bits: 1024

@@ -90,6 +90,7 @@ public class MissleController : MonoBehaviour
 
     protected virtual void Fire()
     {
+        _rigid.position = _targetPos;
         gameObject.SetActive(false);
     }
 }

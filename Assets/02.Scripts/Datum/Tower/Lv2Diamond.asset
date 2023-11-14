@@ -18,7 +18,7 @@ MonoBehaviour:
   level: 2
   atkBase: 6
   atkRange: 2.2
-  atkTime: 1
+  atkTime: 1.8
   upgradeGain: 2
   targetLayer:
     serializedVersion: 2

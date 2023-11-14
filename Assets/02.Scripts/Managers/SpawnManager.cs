@@ -34,8 +34,6 @@ public class SpawnManager
         {
             _enemyRemainCount = value;
 
-            Debug.Log($"remaincount set! {_enemyRemainCount}");
-
             if (_enemyRemainCount == 0)
             {
                 GameManager.instance.EndDefensePhase();

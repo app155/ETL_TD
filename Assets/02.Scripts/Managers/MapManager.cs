@@ -97,6 +97,8 @@ public class MapManager : MonoBehaviour
 
     public bool PathFindbyBFS(TileInfo tileToTry, TileInfo[,] map, bool isInit = false)
     {
+        List<int[]> originPath = path;
+
         if (isInit == false &&
             ((tileToTry.tileIndex[0] == 0 && tileToTry.tileIndex[1] == 0) ||
             (tileToTry.tileIndex[0] == map.GetLength(0) - 1 && tileToTry.tileIndex[1] == map.GetLength(1) - 1)))
@@ -156,30 +158,31 @@ public class MapManager : MonoBehaviour
             }
         }
 
-        MakePath(checker);
+        path = MakePath(checker);
 
         if (checker[mapHeight - 1, mapWidth - 1].visited == false)
         {
             map[tileToTry.tileIndex[0], tileToTry.tileIndex[1]].tileState = TileState.None;
+            path = originPath;
             return false;
         }
 
         return true;
     }
 
-    void MakePath(PathChecker[,] checker)
+    List<int[]> MakePath(PathChecker[,] checker)
     {
-        path.Clear();
+        List<int[]> newPath = new List<int[]>();
 
         int nowY = checker.GetLength(0) - 1;
         int nowX = checker.GetLength(1) - 1;
 
-        path.Add(new int[] { nowY, nowX });
+        newPath.Add(new int[] { nowY, nowX });
 
         while (!(nowY == 0 && nowX == 0))
         {
             PathChecker now = checker[nowY, nowX];
-            path.Add(new int[] { checker[nowY, nowX].prevY, checker[nowY, nowX].prevX });
+            newPath.Add(new int[] { now.prevY, now.prevX });
 
             int tmpY = nowY;
             int tmpX = nowX;
@@ -188,6 +191,8 @@ public class MapManager : MonoBehaviour
             nowX = checker[tmpY, tmpX].prevX;
         }
 
-        path.Reverse();
+        newPath.Reverse();
+
+        return newPath;
     }
 }

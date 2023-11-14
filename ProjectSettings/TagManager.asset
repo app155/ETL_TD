@@ -47,6 +47,9 @@ TagManager:
   - name: Wall
     uniqueID: 3218300509
     locked: 0
+  - name: Effect
+    uniqueID: 844436861
+    locked: 0
   - name: Tower
     uniqueID: 351396955
     locked: 0
@@ -59,9 +62,9 @@ TagManager:
   - name: MiniUI
     uniqueID: 2343853647
     locked: 0
-  - name: Effect
-    uniqueID: 844436861
-    locked: 0
   - name: TextNofification
     uniqueID: 90948531
+    locked: 0
+  - name: New Layer 9
+    uniqueID: 2096380787
     locked: 0
