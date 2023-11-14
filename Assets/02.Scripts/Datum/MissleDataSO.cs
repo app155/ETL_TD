@@ -6,7 +6,6 @@ using UnityEngine;
 public class MissleDataSO : ScriptableObject
 {
     public int id;
-    public AttackType attackType;
     public float moveSpeed;
     public float damageRange;
     public LayerMask targetLayer;

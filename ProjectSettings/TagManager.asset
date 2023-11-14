@@ -47,9 +47,6 @@ TagManager:
   - name: Wall
     uniqueID: 3218300509
     locked: 0
-  - name: Effect
-    uniqueID: 844436861
-    locked: 0
   - name: Tower
     uniqueID: 351396955
     locked: 0
@@ -58,6 +55,9 @@ TagManager:
     locked: 0
   - name: Missle
     uniqueID: 3487528333
+    locked: 0
+  - name: Effect
+    uniqueID: 844436861
     locked: 0
   - name: MiniUI
     uniqueID: 2343853647

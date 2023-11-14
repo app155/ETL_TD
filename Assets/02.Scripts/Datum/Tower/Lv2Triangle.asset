@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 8
   towerType: 3
-  attackType: 1
+  attackType: 2
   level: 2
-  atkBase: 8
-  atkRange: 1
-  atkTime: 2
-  upgradeGain: 2
+  atkBase: 44
+  atkRange: 2.2
+  atkTime: 1.5
+  upgradeGain: 26
   targetLayer:
     serializedVersion: 2
     m_Bits: 1024

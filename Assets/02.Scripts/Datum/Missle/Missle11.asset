@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: Missle11
   m_EditorClassIdentifier: 
   id: 11
-  attackType: 1
   moveSpeed: 0
-  damageRange: 0
+  damageRange: 1.2
   targetLayer:
     serializedVersion: 2
     m_Bits: 1024

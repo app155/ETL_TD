@@ -69,7 +69,7 @@ public class MissleController : MonoBehaviour
             _target = null;
     }
 
-    protected void Follow(Vector2 targetPos)
+    protected virtual void Follow(Vector2 targetPos)
     {
         Vector2 expectedPos = (targetPos - _rigid.position).normalized * _moveSpeed * Time.fixedDeltaTime;
         float expectedDistance = expectedPos.magnitude;
@@ -90,7 +90,6 @@ public class MissleController : MonoBehaviour
 
     protected virtual void Fire()
     {
-        _rigid.position = _targetPos;
         gameObject.SetActive(false);
     }
 }

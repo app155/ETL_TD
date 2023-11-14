@@ -16,8 +16,8 @@ MonoBehaviour:
   towerType: 3
   attackType: 1
   level: 1
-  atkBase: 22
-  atkRange: 1.3
+  atkBase: 24
+  atkRange: 2
   atkTime: 1.5
   upgradeGain: 10
   targetLayer:

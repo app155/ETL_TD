@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2
   towerType: 3
-  attackType: 2
+  attackType: 1
   level: 0
   atkBase: 10
-  atkRange: 1.5
+  atkRange: 2
   atkTime: 1.6
   upgradeGain: 5
   targetLayer:
