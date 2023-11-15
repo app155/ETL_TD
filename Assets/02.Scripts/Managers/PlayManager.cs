@@ -48,6 +48,12 @@ public class PlayManager : MonoBehaviour
         {
             if (MapManager.instance.selectedTile.tileState == MapManager.TileState.None)
             {
+                if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
+                {
+                    SpawnManager.instance.SpawnUITextNotification("벽은 준비 단계에서만 건설 가능합니다.");
+                    return;
+                }
+
                 if (MapManager.instance.PathFindbyBFS(MapManager.instance.selectedTile, MapManager.instance.map))
                 {
                     SpawnManager.instance.SpawnWall(MapManager.instance.selectedTile);

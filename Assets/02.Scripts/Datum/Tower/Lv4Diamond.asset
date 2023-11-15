@@ -16,10 +16,10 @@ MonoBehaviour:
   towerType: 1
   attackType: 1
   level: 4
-  atkBase: 6
-  atkRange: 2.2
-  atkTime: 1
-  upgradeGain: 2
+  atkBase: 88
+  atkRange: 7
+  atkTime: 0.3
+  upgradeGain: 50
   targetLayer:
     serializedVersion: 2
     m_Bits: 1024

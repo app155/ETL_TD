@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Missle06
   m_EditorClassIdentifier: 
   id: 6
-  moveSpeed: 30
+  moveSpeed: 25
   damageRange: 0
   targetLayer:
     serializedVersion: 2

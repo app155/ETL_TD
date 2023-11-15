@@ -17,7 +17,7 @@ MonoBehaviour:
   attackType: 1
   level: 0
   atkBase: 10
-  atkRange: 2
+  atkRange: 2.5
   atkTime: 1.6
   upgradeGain: 5
   targetLayer:

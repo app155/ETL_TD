@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class SpawnManager
+public class SpawnManager : ISceneListener
 {
     public static SpawnManager instance
     {
@@ -17,6 +17,7 @@ public class SpawnManager
             if (_instance == null)
             {
                 _instance = new SpawnManager();
+                SceneManagerWrapped.instance.Register(_instance);
             }
 
             return _instance;
@@ -57,13 +58,7 @@ public class SpawnManager
     public Dictionary<int, List<TowerController>> towersInField = new Dictionary<int, List<TowerController>>();
 
     public void SpawnWall(MapManager.TileInfo selectedTile)
-    {
-        if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
-        {
-            SpawnUITextNotification("웨이브 중 벽 건설이 불가능합니다.");
-            return;
-        }
-            
+    {            
         if (selectedTile.tileState != MapManager.TileState.Wall)
         {
             SpawnUITextNotification("벽은 빈 타일에만 건설 가능합니다.");
@@ -313,5 +308,19 @@ public class SpawnManager
     {
         Text text = PoolManager.instance.Get((int)PoolTag.UI_TextNotification).GetComponentInChildren<Text>();
         text.text = message;
+    }
+
+    public void OnBeforeSceneLoaded()
+    {
+        onDefensePhaseStarted = null;
+        onTowerSpawned = null;
+        onTowerDestroyed = null;
+        _enemySpawnCount = 0;
+        towersInField.Clear();
+    }
+
+    public void OnAfterSceneLoaded()
+    {
+        //SceneManagerWrapped.instance.Register(_instance);
     }
 }

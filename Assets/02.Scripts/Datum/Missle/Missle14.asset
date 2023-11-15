@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Missle14
   m_EditorClassIdentifier: 
   id: 14
-  moveSpeed: 0
-  damageRange: 1.5
+  moveSpeed: 25
+  damageRange: 2
   targetLayer:
     serializedVersion: 2
     m_Bits: 1024
-  sprite: {fileID: 21300000, guid: 1b30d67f98085bd439bc156d424214f4, type: 3}
-  color: {r: 0, g: 0, b: 0, a: 1}
+  sprite: {fileID: 21300000, guid: c43ae10d7dbe405479bbba42c8d2fd6d, type: 3}
+  color: {r: 0.20784314, g: 0.17254902, b: 0.17254902, a: 1}

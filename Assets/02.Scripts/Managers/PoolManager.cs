@@ -22,7 +22,15 @@ public class PoolManager
 
     public void Register(int id, IObjectPool<GameObject> pool)
     {
-        _pools.Add(id, pool);
+        if (_pools.ContainsKey(id))
+        {
+            _pools[id] = pool;
+        }
+        
+        else
+        {
+            _pools.Add(id, pool);
+        }
     }
 
     public GameObject Get(int id)

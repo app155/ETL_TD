@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   moveSpeed: 1
-  hpMax: 30
+  hpMax: 450
   sprite: {fileID: 21300000, guid: fe4921ce87a14ba4a8c4c0548bfb7b6f, type: 3}

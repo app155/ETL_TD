@@ -10,8 +10,8 @@ public class UI_CurrentRoundEnemyInfoDisplayer : MonoBehaviour
 
     void Start()
     {
-        _currentEnemyImage.sprite = RoundEnemyData.instance.enemyDataList[0].sprite;
-        _currentEnemyHpText.text = RoundEnemyData.instance.enemyDataList[0].hpMax.ToString();
+        _currentEnemyImage.sprite = RoundEnemyData.instance.enemyDataList[GameManager.instance.round].sprite;
+        _currentEnemyHpText.text = RoundEnemyData.instance.enemyDataList[GameManager.instance.round].hpMax.ToString();
 
         GameManager.instance.onDefencePhaseEnded += () =>
         {

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpgradeManager
+public class UpgradeManager : ISceneListener
 {
     public static UpgradeManager instance
     {
@@ -12,6 +12,7 @@ public class UpgradeManager
             if (_instance == null)
             {
                 _instance = new UpgradeManager();
+                SceneManagerWrapped.instance.Register(_instance);
             }
 
             return _instance;
@@ -54,11 +55,11 @@ public class UpgradeManager
         if (GameManager.instance.gold < (diamondUpgrade + 1) * 5)
             return;
 
-        for (int i = 0; i < SpawnManager.instance.towersInField.Keys.Count; i++)
+        foreach (int key in SpawnManager.instance.towersInField.Keys)
         {
-            for (int j = 0; j < SpawnManager.instance.towersInField[i].Count; j++)
+            for (int i = 0; i < SpawnManager.instance.towersInField[key].Count; i++)
             {
-                TowerController tower = SpawnManager.instance.towersInField[i][j];
+                TowerController tower = SpawnManager.instance.towersInField[key][i];
 
                 if (tower is DiamondTowerController)
                 {
@@ -78,11 +79,11 @@ public class UpgradeManager
         if (GameManager.instance.gold < (hexagonUpgrade + 1) * 5)
             return;
 
-        for (int i = 0; i < SpawnManager.instance.towersInField.Keys.Count; i++)
+        foreach (int key in SpawnManager.instance.towersInField.Keys)
         {
-            for (int j = 0; j < SpawnManager.instance.towersInField[i].Count; j++)
+            for (int i = 0; i < SpawnManager.instance.towersInField[key].Count; i++)
             {
-                TowerController tower = SpawnManager.instance.towersInField[i][j];
+                TowerController tower = SpawnManager.instance.towersInField[key][i];
 
                 if (tower is HexagonTowerController)
                 {
@@ -102,11 +103,11 @@ public class UpgradeManager
         if (GameManager.instance.gold < (triangleUpgrade + 1) * 5)
             return;
 
-        for (int i = 0; i < SpawnManager.instance.towersInField.Keys.Count; i++)
+        foreach (int key in SpawnManager.instance.towersInField.Keys)
         {
-            for (int j = 0; j < SpawnManager.instance.towersInField[i].Count; j++)
+            for (int i = 0; i < SpawnManager.instance.towersInField[key].Count; i++)
             {
-                TowerController tower = SpawnManager.instance.towersInField[i][j];
+                TowerController tower = SpawnManager.instance.towersInField[key][i];
 
                 if (tower is TriangleTowerController)
                 {
@@ -119,5 +120,18 @@ public class UpgradeManager
         triangleUpgrade++;
         onUpgradeDone?.Invoke();
         Debug.Log($"upgrade triangle");
+    }
+
+    public void OnBeforeSceneLoaded()
+    {
+        diamondUpgrade = 0;
+        hexagonUpgrade = 0;
+        triangleUpgrade = 0;
+        onUpgradeDone = null;
+    }
+
+    public void OnAfterSceneLoaded()
+    {
+        //SceneManagerWrapped.instance.Register(_instance);
     }
 }
