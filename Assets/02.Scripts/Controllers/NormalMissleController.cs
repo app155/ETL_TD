@@ -2,20 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NormalMissleController : MissleController
+namespace TD.Controller
 {
-    public override void SetUp()
+    public class NormalMissleController : MissleController
     {
-        base.SetUp();
-    }
-
-    protected override void Fire()
-    {
-        if (_target.gameObject.activeSelf != false)
+        public override void SetUp()
         {
-            _target.GetComponent<EnemyController>().DepleteHp(_atk);
+            base.SetUp();
         }
 
-        base.Fire();
+        protected override void Fire()
+        {
+            if (_target.gameObject.activeSelf != false)
+            {
+                _target.GetComponent<EnemyController>().DepleteHp(_atk);
+            }
+
+            base.Fire();
+        }
     }
 }
+

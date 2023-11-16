@@ -42,6 +42,7 @@ public class SceneManagerWrapped : MonoBehaviour
         }
 
         SceneManager.LoadScene(sceneIndex);
+        Time.timeScale = 1.0f;
 
         foreach (var listener in _listeners)
         {

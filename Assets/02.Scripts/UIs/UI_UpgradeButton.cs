@@ -2,61 +2,66 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TD.Controller;
 
-public class UI_UpgradeButton : MonoBehaviour
+namespace TD.UI
 {
-    [SerializeField] TowerType _towerType;
-    Text _upgradeText;
-    Button _button;
-
-    private void Awake()
+    public class UI_UpgradeButton : MonoBehaviour
     {
-        _button = GetComponent<Button>();
-        _upgradeText = GetComponentInChildren<Text>();
+        [SerializeField] TowerType _towerType;
+        Text _upgradeText;
+        Button _button;
 
-        switch (_towerType)
+        private void Awake()
         {
-            case TowerType.None:
-                break;
-            case TowerType.Diamond:
-                _upgradeText.text = $"{UpgradeManager.instance.diamondUpgrade}\n{(UpgradeManager.instance.diamondUpgrade + 1) * 5}G";
-                break;
-            case TowerType.Hexagon:
-                _upgradeText.text = $"{UpgradeManager.instance.hexagonUpgrade}\n{(UpgradeManager.instance.hexagonUpgrade + 1) * 5}G";
-                break;
-            case TowerType.Triangle:
-                _upgradeText.text = $"{UpgradeManager.instance.triangleUpgrade}\n{(UpgradeManager.instance.triangleUpgrade + 1) * 5}G";
-                break;
-        }
-    }
+            _button = GetComponent<Button>();
+            _upgradeText = GetComponentInChildren<Text>();
 
-    private void Start()
-    {
-        switch (_towerType)
-        {
-            case TowerType.None:
-                break;
-            case TowerType.Diamond:
-                _button.onClick.AddListener(() =>
-                {
-                    UpgradeManager.instance.UpgradeDiamondTower();
+            switch (_towerType)
+            {
+                case TowerType.None:
+                    break;
+                case TowerType.Diamond:
                     _upgradeText.text = $"{UpgradeManager.instance.diamondUpgrade}\n{(UpgradeManager.instance.diamondUpgrade + 1) * 5}G";
-                });
-                break;
-            case TowerType.Hexagon:
-                _button.onClick.AddListener(() =>
-                {
-                    UpgradeManager.instance.UpgradeHexagonTower();
+                    break;
+                case TowerType.Hexagon:
                     _upgradeText.text = $"{UpgradeManager.instance.hexagonUpgrade}\n{(UpgradeManager.instance.hexagonUpgrade + 1) * 5}G";
-                });
-                break;
-            case TowerType.Triangle:
-                _button.onClick.AddListener(() =>
-                {
-                    UpgradeManager.instance.UpgradeTriangleTower();
+                    break;
+                case TowerType.Triangle:
                     _upgradeText.text = $"{UpgradeManager.instance.triangleUpgrade}\n{(UpgradeManager.instance.triangleUpgrade + 1) * 5}G";
-                });
-                break;
+                    break;
+            }
+        }
+
+        private void Start()
+        {
+            switch (_towerType)
+            {
+                case TowerType.None:
+                    break;
+                case TowerType.Diamond:
+                    _button.onClick.AddListener(() =>
+                    {
+                        UpgradeManager.instance.UpgradeDiamondTower();
+                        _upgradeText.text = $"{UpgradeManager.instance.diamondUpgrade}\n{(UpgradeManager.instance.diamondUpgrade + 1) * 5}G";
+                    });
+                    break;
+                case TowerType.Hexagon:
+                    _button.onClick.AddListener(() =>
+                    {
+                        UpgradeManager.instance.UpgradeHexagonTower();
+                        _upgradeText.text = $"{UpgradeManager.instance.hexagonUpgrade}\n{(UpgradeManager.instance.hexagonUpgrade + 1) * 5}G";
+                    });
+                    break;
+                case TowerType.Triangle:
+                    _button.onClick.AddListener(() =>
+                    {
+                        UpgradeManager.instance.UpgradeTriangleTower();
+                        _upgradeText.text = $"{UpgradeManager.instance.triangleUpgrade}\n{(UpgradeManager.instance.triangleUpgrade + 1) * 5}G";
+                    });
+                    break;
+            }
         }
     }
 }
+

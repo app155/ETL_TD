@@ -2,24 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TowerData : MonoBehaviour
+namespace TD.Datum
 {
-    public static TowerData instance => _instance;
-
-    private static TowerData _instance;
-
-    public List<TowerDataSO> towerDataList;
-
-    void Awake()
+    public class TowerData : MonoBehaviour
     {
-        //if (_instance != null)
-        //{
-        //    Destroy(gameObject);
-        //}
-        //_instance = this;
+        public static TowerData instance => _instance;
 
-        //DontDestroyOnLoad(gameObject);
+        private static TowerData _instance;
 
-        _instance = this;
+        public List<TowerDataSO> towerDataList;
+
+        void Awake()
+        {
+            //if (_instance != null)
+            //{
+            //    Destroy(gameObject);
+            //}
+            //_instance = this;
+
+            //DontDestroyOnLoad(gameObject);
+
+            _instance = this;
+        }
     }
 }
+

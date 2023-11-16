@@ -3,13 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TriangleTowerController : TowerController
+namespace TD.Controller
 {
-    public override void SetUp(int randomNum)
+    public class TriangleTowerController : TowerController
     {
-        base.SetUp(randomNum);
+        public override void SetUp(int randomNum)
+        {
+            base.SetUp(randomNum);
 
-        _towerType = TowerType.Triangle;
-        _upgrade = UpgradeManager.instance.triangleUpgrade;
+            _towerType = TowerType.Triangle;
+            _upgrade = UpgradeManager.instance.triangleUpgrade;
+        }
     }
 }
+

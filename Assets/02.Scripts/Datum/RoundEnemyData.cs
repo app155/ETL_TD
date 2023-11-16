@@ -3,27 +3,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoundEnemyData : MonoBehaviour
+namespace TD.Datum
 {
-    public static RoundEnemyData instance
+    public class RoundEnemyData : MonoBehaviour
     {
-        get { return _instance; }
+        public static RoundEnemyData instance
+        {
+            get { return _instance; }
+        }
+
+        private static RoundEnemyData _instance;
+
+        public List<EnemySpawnData> enemyDataList;
+
+        private void Awake()
+        {
+            //if (_instance != null)
+            //{
+            //    Destroy(gameObject);
+            //}
+            //_instance = this;
+
+            //DontDestroyOnLoad(gameObject);
+
+            _instance = this;
+        }
     }
 
-    private static RoundEnemyData _instance;
-
-    public List<EnemySpawnData> enemyDataList;
-
-    private void Awake()
-    {
-        //if (_instance != null)
-        //{
-        //    Destroy(gameObject);
-        //}
-        //_instance = this;
-
-        //DontDestroyOnLoad(gameObject);
-
-        _instance = this;
-    }
 }

@@ -2,24 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MissleData : MonoBehaviour
+namespace TD.Datum
 {
-    public static MissleData instance => _instance;
-
-    private static MissleData _instance;
-
-    public List<MissleDataSO> missleDataList;
-
-    void Awake()
+    public class MissleData : MonoBehaviour
     {
-        //if (_instance != null)
-        //{
-        //    Destroy(gameObject);
-        //}
-        //_instance = this;
+        public static MissleData instance => _instance;
 
-        //DontDestroyOnLoad(gameObject);
+        private static MissleData _instance;
 
-        _instance = this;
+        public List<MissleDataSO> missleDataList;
+
+        void Awake()
+        {
+            //if (_instance != null)
+            //{
+            //    Destroy(gameObject);
+            //}
+            //_instance = this;
+
+            //DontDestroyOnLoad(gameObject);
+
+            _instance = this;
+        }
     }
 }
+
+

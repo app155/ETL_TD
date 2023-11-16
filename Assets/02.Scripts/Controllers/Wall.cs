@@ -2,7 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wall : MonoBehaviour
+namespace TD.Controller
 {
-    public MapManager.TileInfo tileBelong;
+    public class Wall : MonoBehaviour
+    {
+        public TileInfo tileBelong;
+    }
 }
+

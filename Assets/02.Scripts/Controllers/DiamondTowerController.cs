@@ -3,13 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DiamondTowerController : TowerController, IUpgrade<TowerType>
+namespace TD.Controller
 {
-    public override void SetUp(int randomNum)
+    public class DiamondTowerController : TowerController, IUpgrade<TowerType>
     {
-        base.SetUp(randomNum);
+        public override void SetUp(int randomNum)
+        {
+            base.SetUp(randomNum);
 
-        _towerType = TowerType.Diamond;
-        _upgrade = UpgradeManager.instance.diamondUpgrade;
+            _towerType = TowerType.Diamond;
+            _upgrade = UpgradeManager.instance.diamondUpgrade;
+        }
     }
 }

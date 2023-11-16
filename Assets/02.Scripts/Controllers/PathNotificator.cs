@@ -2,23 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathNotificator : MonoBehaviour
+namespace TD.Controller
 {
-    public float _offTimer;
-    [SerializeField] private float _offTime;
-
-    private void OnEnable()
+    public class PathNotificator : MonoBehaviour
     {
-        _offTimer = 0.0f;
-    }
+        public float _offTimer;
+        [SerializeField] private float _offTime;
 
-    void Update()
-    {
-        _offTimer += Time.deltaTime;
-
-        if (_offTimer > _offTime)
+        private void OnEnable()
         {
-            gameObject.SetActive(false);
+            _offTimer = 0.0f;
+        }
+
+        void Update()
+        {
+            _offTimer += Time.deltaTime;
+
+            if (_offTimer > _offTime)
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
 }
+

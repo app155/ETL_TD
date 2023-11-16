@@ -5,23 +5,18 @@ using UnityEngine;
 
 public class PlayManager : MonoBehaviour
 {
-    void Start()
-    {
-        
-    }
+    private bool _canInputAction => GameManager.instance.gamePhase == GamePhase.BuildPhase ||
+                                    GameManager.instance.gamePhase == GamePhase.DefensePhase;
 
     void Update()
     {
-        if (GameManager.instance.gamePhase == GamePhase.GameOver || GameManager.instance.gamePhase == GamePhase.GameClear)
-        {
-            return;
-        }
-
         InputAction();
     }
 
     void InputAction()
     {
+        if (!_canInputAction)
+            return;
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -44,13 +39,24 @@ public class PlayManager : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (MapManager.instance.selectedTile.tileState == MapManager.TileState.None)
+            MapManager.instance.selectedTile = null;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0)
+        {
+            if (MapManager.instance.selectedTile.tileState == TileState.None)
             {
                 if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
                 {
                     SpawnManager.instance.SpawnUITextNotification("벽은 준비 단계에서만 건설 가능합니다.");
+                    return;
+                }
+
+                if (GameManager.instance.gold < 5)
+                {
+                    SpawnManager.instance.SpawnUITextNotification("자원이 부족합니다.");
                     return;
                 }
 
@@ -69,30 +75,24 @@ public class PlayManager : MonoBehaviour
             {
                 SpawnManager.instance.SpawnUITextNotification("벽은 빈 타일에만 건설 가능합니다.");
             }
-
         }
 
-        if (Input.GetKeyDown(KeyCode.Z) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0)
+        if (Input.GetKeyDown(KeyCode.W) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0)
         {
             SpawnManager.instance.SpawnDefaultTower(MapManager.instance.selectedTile);
         }
 
-        if (Input.GetKeyDown(KeyCode.X) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0 && MapManager.instance.selectedTile.tileState == MapManager.TileState.Tower)
+        if (Input.GetKeyDown(KeyCode.E) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0 && MapManager.instance.selectedTile.tileState == TileState.Tower)
         {
             SpawnManager.instance.MergeTower(MapManager.instance.selectedTile.tower);
         }
 
-        if (Input.GetKeyDown(KeyCode.Tab) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0)
+        if (Input.GetKeyDown(KeyCode.R) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0)
         {
             SpawnManager.instance.DestroyObject(MapManager.instance.selectedTile);
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            StartCoroutine(SpawnManager.instance.SpawnRoundEnemyRoutine());
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             StartCoroutine(SpawnManager.instance.SpawnPathNotificatorRoutine());
         }

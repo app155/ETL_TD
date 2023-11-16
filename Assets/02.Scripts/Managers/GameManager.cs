@@ -6,8 +6,10 @@ using UnityEngine;
 public enum GamePhase
 {
     None,
+    BeforeStart,
     BuildPhase,
     DefensePhase,
+    GamePaused,
     GameOver,
     GameClear,
 }
@@ -49,13 +51,43 @@ public class GameManager : MonoBehaviour
 
             if (_life <= 0)
             {
-                onGameOver?.Invoke();
+                gamePhase = GamePhase.GameOver;
             }
         }
     }
 
-    public GamePhase gamePhase;
+    public GamePhase gamePhase
+    {
+        get { return _gamePhase; }
+        set
+        {
+            if (_gamePhase == value)
+                return;
 
+            if (value == GamePhase.GamePaused)
+            {
+                _prevGamePhase = _gamePhase;
+            }
+
+            _gamePhase = value;
+
+            switch (value)
+            {
+                case GamePhase.GamePaused:
+                    onGamePaused?.Invoke();
+                    break;
+                case GamePhase.GameOver:
+                    onGameOver?.Invoke();
+                    break;
+                case GamePhase.GameClear:
+                    onGameClear?.Invoke();
+                    break;
+            }
+        }
+    }
+
+    private GamePhase _prevGamePhase;
+    private GamePhase _gamePhase;
     private static GameManager _instance;
     [SerializeField] private int _initialGold;
     private int _gold;
@@ -70,6 +102,7 @@ public class GameManager : MonoBehaviour
     public event Action onGoldChanged;
     public event Action onLifeDepleted;
     public event Action onDefencePhaseEnded;
+    public event Action onGamePaused;
     public event Action onGameOver;
     public event Action onGameClear;
 
@@ -83,19 +116,22 @@ public class GameManager : MonoBehaviour
 
             if (round > _roundMax)
             {
-                onGameClear?.Invoke();
+                gamePhase = GamePhase.GameClear;
             }    
+        };
+
+        onGamePaused += () =>
+        {
+            Time.timeScale = 0.0f;
         };
 
         onGameOver += () =>
         {
-            gamePhase = GamePhase.GameOver;
             Time.timeScale = 0.0f;
         };
 
         onGameClear += () =>
         {
-            gamePhase = GamePhase.GameClear;
             Time.timeScale = 0.0f;
         };
     }
@@ -104,7 +140,7 @@ public class GameManager : MonoBehaviour
     {
         gold = _initialGold;
         life = _initialLife;
-        gamePhase = GamePhase.BuildPhase;
+        gamePhase = GamePhase.BeforeStart;
     }
 
     void Update()
@@ -124,9 +160,10 @@ public class GameManager : MonoBehaviour
         onDefencePhaseEnded?.Invoke();
     }
 
-    public void GameClear()
+    public void EndGamePause()
     {
-
+        _gamePhase = _prevGamePhase;
+        Time.timeScale = 1.0f;
     }
 
 }

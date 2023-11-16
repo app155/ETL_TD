@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using TD.Controller;
+using TD.Datum;
 using Random = UnityEngine.Random;
 
 public class SpawnManager : ISceneListener
@@ -57,30 +59,18 @@ public class SpawnManager : ISceneListener
     private static SpawnManager _instance;
     public Dictionary<int, List<TowerController>> towersInField = new Dictionary<int, List<TowerController>>();
 
-    public void SpawnWall(MapManager.TileInfo selectedTile)
+    public void SpawnWall(TileInfo selectedTile)
     {            
-        if (selectedTile.tileState != MapManager.TileState.Wall)
-        {
-            SpawnUITextNotification("벽은 빈 타일에만 건설 가능합니다.");
-            return;
-        }
-
-        if (GameManager.instance.gold < 5)
-        {
-            SpawnUITextNotification("자원이 부족합니다.");
-            return;
-        }
-
         Wall wall = PoolManager.instance.Get((int)PoolTag.Wall).GetComponent<Wall>();
         wall.tileBelong = selectedTile;
         wall.transform.position = wall.tileBelong.tilePos;
-        wall.tileBelong.tileState = MapManager.TileState.Wall;
+        wall.tileBelong.tileState = TileState.Wall;
         wall.tileBelong.wall = wall.GetComponent<Wall>();
 
         GameManager.instance.gold -= 5;
     }
 
-    public void SpawnDefaultTower(MapManager.TileInfo selectedTile)
+    public void SpawnDefaultTower(TileInfo selectedTile)
     {
         //if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
         //{
@@ -88,7 +78,7 @@ public class SpawnManager : ISceneListener
         //    return;
         //}
 
-        if (selectedTile.tileState != MapManager.TileState.Wall)
+        if (selectedTile.tileState != TileState.Wall)
         {
             SpawnUITextNotification("타워는 벽이 건설된 타일에만 건설 가능합니다.");
             return;
@@ -119,7 +109,7 @@ public class SpawnManager : ISceneListener
 
         tower.tileBelong = selectedTile;
         tower.gameObject.transform.position = tower.tileBelong.tilePos;
-        tower.tileBelong.tileState = MapManager.TileState.Tower;
+        tower.tileBelong.tileState = TileState.Tower;
         tower.tileBelong.tower = tower;
 
         tower.SetUp(randomNum);
@@ -160,11 +150,11 @@ public class SpawnManager : ISceneListener
 
     public void MergeTower(TowerController selectedTower)
     {
-        //if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
-        //{
-        //    SpawnUITextNotification("웨이브 중 타워를 진화시킬 수 없습니다.");
-        //    return;
-        //}
+        if (GameManager.instance.gold < 5)
+        {
+            SpawnUITextNotification("자원이 부족합니다.");
+            return;
+        }
 
         if (towersInField[selectedTower.id].Count <= 1)
         {
@@ -179,7 +169,7 @@ public class SpawnManager : ISceneListener
         }
 
         TowerController mergedTower = null;
-        MapManager.TileInfo tile = selectedTower.tileBelong;
+        TileInfo tile = selectedTower.tileBelong;
 
         for (int i = 0; i < towersInField[selectedTower.id].Count; i++)
         {
@@ -188,7 +178,7 @@ public class SpawnManager : ISceneListener
 
             mergedTower = towersInField[selectedTower.id][i];
             towersInField[selectedTower.id].Remove(mergedTower);
-            mergedTower.tileBelong.tileState = MapManager.TileState.Wall;
+            mergedTower.tileBelong.tileState = TileState.Wall;
             towersInField[selectedTower.id].Remove(selectedTower);
             break;
         }
@@ -227,7 +217,7 @@ public class SpawnManager : ISceneListener
         towersInField[selectedTower.id].Add(selectedTower);
     }
 
-    public void DestroyObject(MapManager.TileInfo selectedTile)
+    public void DestroyObject(TileInfo selectedTile)
     {
         if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
         {

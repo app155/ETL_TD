@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PhaseButtonTest : MonoBehaviour
+public class UI_PhaseButton : MonoBehaviour
 {
     Button _button;
     Text _text;
@@ -31,11 +31,5 @@ public class PhaseButtonTest : MonoBehaviour
             _button.interactable = true;
             _text.text = $"Round {GameManager.instance.round + 1}\nStart";
         };
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

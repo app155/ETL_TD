@@ -1,31 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TD.Controller;
 
-public class SplashRangeEffect : MonoBehaviour
+namespace TD.GameElements
 {
-    private MissleController _owner;
-    [SerializeField] private float _range;
-    [SerializeField] private float _effectTime = 0.1f;
-    [SerializeField] private float _effectTimer;
-
-    private void Awake()
+    public class SplashRangeEffect : MonoBehaviour
     {
-        _owner = transform.root.GetComponent<MissleController>();
-    }
+        private MissleController _owner;
+        [SerializeField] private float _range;
+        [SerializeField] private float _effectTime = 0.1f;
+        [SerializeField] private float _effectTimer;
 
-    private void Update()
-    {
-        if (_effectTimer <= _effectTime)
+        private void Awake()
         {
-            _effectTimer += Time.deltaTime;
+            _owner = transform.root.GetComponent<MissleController>();
         }
 
-        else
+        private void Update()
         {
-            _effectTimer = 0.0f;
-            gameObject.SetActive(false);
-            transform.parent.gameObject.SetActive(false);
+            if (_effectTimer <= _effectTime)
+            {
+                _effectTimer += Time.deltaTime;
+            }
+
+            else
+            {
+                _effectTimer = 0.0f;
+                gameObject.SetActive(false);
+                transform.parent.gameObject.SetActive(false);
+            }
         }
     }
 }

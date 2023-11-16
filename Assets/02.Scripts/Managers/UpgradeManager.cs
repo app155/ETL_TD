@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TD.Controller;
 
 public class UpgradeManager : ISceneListener
 {
@@ -132,6 +133,6 @@ public class UpgradeManager : ISceneListener
 
     public void OnAfterSceneLoaded()
     {
-        //SceneManagerWrapped.instance.Register(_instance);
+        
     }
 }

@@ -2,30 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TD.Datum;
 
-public class UI_CurrentRoundEnemyInfoDisplayer : MonoBehaviour
+namespace TD.UI
 {
-    [SerializeField] private Image _currentEnemyImage;
-    [SerializeField] private Text _currentEnemyHpText;
-
-    void Start()
+    public class UI_CurrentRoundEnemyInfoDisplayer : MonoBehaviour
     {
-        _currentEnemyImage.sprite = RoundEnemyData.instance.enemyDataList[GameManager.instance.round].sprite;
-        _currentEnemyHpText.text = RoundEnemyData.instance.enemyDataList[GameManager.instance.round].hpMax.ToString();
+        [SerializeField] private Image _currentEnemyImage;
+        [SerializeField] private Text _currentEnemyHpText;
 
-        GameManager.instance.onDefencePhaseEnded += () =>
+        void Start()
         {
-            if (GameManager.instance.gamePhase == GamePhase.GameClear)
-            {
-                _currentEnemyImage.sprite = null;
-                _currentEnemyHpText.text = "";
-            }
+            _currentEnemyImage.sprite = RoundEnemyData.instance.enemyDataList[GameManager.instance.round].sprite;
+            _currentEnemyHpText.text = RoundEnemyData.instance.enemyDataList[GameManager.instance.round].hpMax.ToString();
 
-            else
+            GameManager.instance.onDefencePhaseEnded += () =>
             {
-                _currentEnemyImage.sprite = RoundEnemyData.instance.enemyDataList[GameManager.instance.round].sprite;
-                _currentEnemyHpText.text = RoundEnemyData.instance.enemyDataList[GameManager.instance.round].hpMax.ToString();
-            }
-        };
+                if (GameManager.instance.gamePhase == GamePhase.GameClear)
+                {
+                    _currentEnemyImage.sprite = null;
+                    _currentEnemyHpText.text = "";
+                }
+
+                else
+                {
+                    _currentEnemyImage.sprite = RoundEnemyData.instance.enemyDataList[GameManager.instance.round].sprite;
+                    _currentEnemyHpText.text = RoundEnemyData.instance.enemyDataList[GameManager.instance.round].hpMax.ToString();
+                }
+            };
+        }
     }
 }
+
+

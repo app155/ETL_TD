@@ -3,13 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HexagonTowerController : TowerController
+namespace TD.Controller
 {
-    public override void SetUp(int randomNum)
+    public class HexagonTowerController : TowerController
     {
-        base.SetUp(randomNum);
+        public override void SetUp(int randomNum)
+        {
+            base.SetUp(randomNum);
 
-        _towerType = TowerType.Hexagon;
-        _upgrade = UpgradeManager.instance.hexagonUpgrade;
+            _towerType = TowerType.Hexagon;
+            _upgrade = UpgradeManager.instance.hexagonUpgrade;
+        }
     }
 }
+

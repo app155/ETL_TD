@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class PoolManager
+public class PoolManager : ISceneListener
 {
     public static PoolManager instance
     {
         get
         {
             if (_instance == null)
+            {
                 _instance = new PoolManager();
+                SceneManagerWrapped.instance.Register(_instance);
+            }
+                
 
             return _instance;
         }
@@ -22,15 +26,7 @@ public class PoolManager
 
     public void Register(int id, IObjectPool<GameObject> pool)
     {
-        if (_pools.ContainsKey(id))
-        {
-            _pools[id] = pool;
-        }
-        
-        else
-        {
-            _pools.Add(id, pool);
-        }
+        _pools.Add(id, pool);
     }
 
     public GameObject Get(int id)
@@ -38,5 +34,15 @@ public class PoolManager
         GameObject item = _pools[id].Get();
 
         return item;
+    }
+
+    public void OnBeforeSceneLoaded()
+    {
+        _pools.Clear();
+    }
+
+    public void OnAfterSceneLoaded()
+    {
+
     }
 }

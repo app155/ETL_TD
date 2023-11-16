@@ -4,25 +4,27 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using TD.Controller;
+
+public enum TileState
+{
+    None,
+    Wall,
+    Tower,
+}
+
+public class TileInfo
+{
+    public int[] tileIndex;
+    public Vector3 tilePos;
+    public TileState tileState;
+    public Wall wall;
+    public TowerController tower;
+}
+
 
 public class MapManager : MonoBehaviour
 {
-    public enum TileState
-    {
-        None,
-        Wall,
-        Tower,
-    }
-
-    public class TileInfo
-    {
-        public int[] tileIndex;
-        public Vector3 tilePos;
-        public TileState tileState;
-        public Wall wall;
-        public TowerController tower;
-    }
-
     struct PathChecker
     {
         public bool visited;
@@ -84,8 +86,6 @@ public class MapManager : MonoBehaviour
                 };
             }
         }
-
-        Debug.Log(tilemap.origin);
 
         PathFindbyBFS(map[0, 0], map, true);
     }

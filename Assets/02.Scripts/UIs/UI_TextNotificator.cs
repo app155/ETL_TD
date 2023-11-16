@@ -4,31 +4,34 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_TextNotificator : MonoBehaviour
+namespace TD.UI
 {
-    [SerializeField] private Text _textNotificator;
-
-    [SerializeField] private float _time;
-    [SerializeField] private float _timer;
-
-    void Awake()
+    public class UI_TextNotificator : MonoBehaviour
     {
-        _textNotificator = GetComponentInChildren<Text>();
-    }
+        [SerializeField] private Text _textNotificator;
 
-    private void OnEnable()
-    {
-        _timer = _time;
-    }
+        [SerializeField] private float _time;
+        [SerializeField] private float _timer;
 
-    // Update is called once per frame
-    void Update()
-    {
-        _timer -= Time.deltaTime;
-
-        if (_timer <= 0.0f)
+        void Awake()
         {
-            gameObject.SetActive(false);
+            _textNotificator = GetComponentInChildren<Text>();
+        }
+
+        private void OnEnable()
+        {
+            _timer = _time;
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            _timer -= Time.deltaTime;
+
+            if (_timer <= 0.0f)
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
 }
