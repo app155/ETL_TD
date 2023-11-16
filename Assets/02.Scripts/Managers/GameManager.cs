@@ -101,6 +101,7 @@ public class GameManager : MonoBehaviour
 
     public event Action onGoldChanged;
     public event Action onLifeDepleted;
+    public event Action<string> onTextNotifyRequired;
     public event Action onDefencePhaseEnded;
     public event Action onGamePaused;
     public event Action onGameOver;
@@ -145,14 +146,14 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftAlt))
-            round++;
+        if (Input.GetKeyDown(KeyCode.A))
+            onTextNotifyRequired?.Invoke("A downed");
 
-        if (Input.GetKeyDown(KeyCode.LeftControl))
-            PoolManager.instance.Get((int)PoolTag.Enemy);
+        if (Input.GetKeyDown(KeyCode.S))
+            onTextNotifyRequired?.Invoke("S downed");
 
-        if (Input.GetKeyDown(KeyCode.P))
-            Debug.Log(gamePhase);
+        if (Input.GetKeyDown(KeyCode.D))
+            onTextNotifyRequired?.Invoke("D downed");
     }
 
     public void EndDefensePhase()
