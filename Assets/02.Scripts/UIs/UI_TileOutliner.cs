@@ -8,7 +8,7 @@ public class UI_TileOutliner : MonoBehaviour
     {
         MapManager.instance.onSelectedTileChanged += () =>
         {
-            if (Comparer.Default.Compare(MapManager.instance.selectedTile, default) == 0)
+            if (MapManager.instance.selectedTile is null)
             {
                 gameObject.SetActive(false);
             }

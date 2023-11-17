@@ -22,7 +22,7 @@ namespace TD.UI
         {
             MapManager.instance.onSelectedTileChanged += () =>
             {
-                if (Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0)
+                if (MapManager.instance.selectedTile is not null)
                 {
                     if (MapManager.instance.selectedTile.tower != null)
                     {

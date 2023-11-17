@@ -18,14 +18,6 @@ namespace TD.Datum
 
         private void Awake()
         {
-            //if (_instance != null)
-            //{
-            //    Destroy(gameObject);
-            //}
-            //_instance = this;
-
-            //DontDestroyOnLoad(gameObject);
-
             _instance = this;
         }
     }

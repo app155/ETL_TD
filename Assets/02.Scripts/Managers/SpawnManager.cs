@@ -75,7 +75,7 @@ public class SpawnManager : ISceneListener
 
         if (MapManager.instance.PathFindbyBFS(selectedTile, MapManager.instance.map) == false)
         {
-            GameManager.instance.TextNotify("Cannot spawn wall in tile where block path");
+            GameManager.instance.TextNotify("Cannot spawn wall in tile where blocks the path");
             return;
         }
 
@@ -176,13 +176,13 @@ public class SpawnManager : ISceneListener
 
         if (towersInField[selectedTower.id].Count <= 1)
         {
-            GameManager.instance.TextNotify("Merging tower cannot");
+            GameManager.instance.TextNotify("The same tower does not exist on the field");
             return;
         }
 
         if (3 * (selectedTower.level + 1) >= TowerData.instance.towerDataList.Count)
         {
-            GameManager.instance.TextNotify("This tower already reached maximum level");
+            GameManager.instance.TextNotify("The tower has already reached maximum level");
             return;
         }
 
@@ -271,13 +271,13 @@ public class SpawnManager : ISceneListener
     {
         if (_canNotifyPath == false)
         {
-            GameManager.instance.TextNotify("Already notifying path");
+            GameManager.instance.TextNotify("Path preview is already running");
             yield break;
         }
 
         if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
         {
-            GameManager.instance.TextNotify("Path preview only in buildphase");
+            GameManager.instance.TextNotify("Path preview is only available in buildphase");
             yield break;
         }
 

@@ -144,11 +144,6 @@ public class GameManager : MonoBehaviour
         gamePhase = GamePhase.BeforeStart;
     }
 
-    void Update()
-    {
-
-    }
-
     public void TextNotify(string text)
     {
         onTextNotifyRequired?.Invoke(text);
