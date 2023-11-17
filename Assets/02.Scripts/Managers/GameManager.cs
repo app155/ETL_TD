@@ -146,14 +146,12 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-            onTextNotifyRequired?.Invoke("A downed");
 
-        if (Input.GetKeyDown(KeyCode.S))
-            onTextNotifyRequired?.Invoke("S downed");
+    }
 
-        if (Input.GetKeyDown(KeyCode.D))
-            onTextNotifyRequired?.Invoke("D downed");
+    public void TextNotify(string text)
+    {
+        onTextNotifyRequired?.Invoke(text);
     }
 
     public void EndDefensePhase()

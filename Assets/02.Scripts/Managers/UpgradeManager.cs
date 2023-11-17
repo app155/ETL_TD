@@ -54,7 +54,10 @@ public class UpgradeManager : ISceneListener
     public void UpgradeDiamondTower()
     {
         if (GameManager.instance.gold < (diamondUpgrade + 1) * 5)
+        {
+            GameManager.instance.TextNotify("Not enough Gold");
             return;
+        }
 
         foreach (int key in SpawnManager.instance.towersInField.Keys)
         {
@@ -69,8 +72,8 @@ public class UpgradeManager : ISceneListener
             }
         }
 
-        GameManager.instance.gold -= (diamondUpgrade + 1) * 5;
         diamondUpgrade++;
+        GameManager.instance.gold -= (diamondUpgrade) * 5;
         onUpgradeDone?.Invoke();
         Debug.Log($"upgrade diamond");
     }
@@ -78,7 +81,10 @@ public class UpgradeManager : ISceneListener
     public void UpgradeHexagonTower()
     {
         if (GameManager.instance.gold < (hexagonUpgrade + 1) * 5)
+        {
+            GameManager.instance.TextNotify("Not enough Gold");
             return;
+        }
 
         foreach (int key in SpawnManager.instance.towersInField.Keys)
         {
@@ -93,8 +99,8 @@ public class UpgradeManager : ISceneListener
             }
         }
 
-        GameManager.instance.gold -= (hexagonUpgrade + 1) * 5;
         hexagonUpgrade++;
+        GameManager.instance.gold -= (hexagonUpgrade) * 5;
         onUpgradeDone?.Invoke();
         Debug.Log($"upgrade hexagon");
     }
@@ -102,7 +108,11 @@ public class UpgradeManager : ISceneListener
     public void UpgradeTriangleTower()
     {
         if (GameManager.instance.gold < (triangleUpgrade + 1) * 5)
+        {
+            GameManager.instance.TextNotify("Not enough Gold");
             return;
+        }
+            
 
         foreach (int key in SpawnManager.instance.towersInField.Keys)
         {
@@ -117,8 +127,8 @@ public class UpgradeManager : ISceneListener
             }
         }
 
-        GameManager.instance.gold -= (triangleUpgrade + 1) * 5;
         triangleUpgrade++;
+        GameManager.instance.gold -= (triangleUpgrade) * 5;
         onUpgradeDone?.Invoke();
         Debug.Log($"upgrade triangle");
     }

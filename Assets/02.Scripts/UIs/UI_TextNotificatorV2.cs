@@ -3,36 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_TextNotificatorV2 : MonoBehaviour
+namespace TD.UI
 {
-    
-    [SerializeField] private Text[] _texts;
-    private Queue<Text> _textQueue;
-    [SerializeField] private float _displayTime;
-
-    private void Awake()
+    public class UI_TextNotificatorV2 : MonoBehaviour
     {
-        _textQueue = new Queue<Text>(GetComponentsInChildren<Text>());
+        [SerializeField] private UI_TextNotice[] _texts;
+        private Queue<UI_TextNotice> _textQueue;
+        [SerializeField] private float _displayTime;
 
-        GameManager.instance.onTextNotifyRequired += (sentence) =>
+        private void Awake()
         {
-            StartCoroutine(DisplayRoutine(_textQueue.Dequeue(), sentence));
-        };
-    }
+            _textQueue = new Queue<UI_TextNotice>(_texts);
 
-    private void Start()
-    {
-        
-    }
+            GameManager.instance.onTextNotifyRequired += (sentence) =>
+            {
+                DisplayText(_textQueue.Dequeue(), sentence);
+            };
+        }
 
-    IEnumerator DisplayRoutine(Text text, string sentence)
-    {
-        text.text = sentence;
-        text.gameObject.SetActive(true);
+        private void Start()
+        {
 
-        _textQueue.Enqueue(text);
-        yield return new WaitForSeconds(_displayTime);
+        }
 
-        text.gameObject.SetActive(false);
+        void DisplayText(UI_TextNotice text, string sentence)
+        {
+            text.Setup(sentence);
+            _textQueue.Enqueue(text);
+        }
     }
 }
+

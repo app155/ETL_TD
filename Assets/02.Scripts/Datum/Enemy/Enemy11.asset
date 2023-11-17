@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 787aa216ed20f5445b990708250851ee, type: 3}
   m_Name: Enemy11
   m_EditorClassIdentifier: 
-  id: 0
-  moveSpeed: 1
-  hpMax: 570
+  id: 11
+  moveSpeed: 3
+  hpMax: 800
   sprite: {fileID: 21300000, guid: cf0c11ca693d9624fb0aadd4d803ec58, type: 3}

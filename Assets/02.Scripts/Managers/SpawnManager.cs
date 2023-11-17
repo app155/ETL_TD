@@ -60,7 +60,25 @@ public class SpawnManager : ISceneListener
     public Dictionary<int, List<TowerController>> towersInField = new Dictionary<int, List<TowerController>>();
 
     public void SpawnWall(TileInfo selectedTile)
-    {            
+    {   
+        if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
+        {
+            GameManager.instance.TextNotify("Cannot spawn wall during Wave");
+            return;
+        }
+
+        if (GameManager.instance.gold < 5)
+        {
+            GameManager.instance.TextNotify("Not enough Gold");
+            return;
+        }
+
+        if (MapManager.instance.PathFindbyBFS(selectedTile, MapManager.instance.map) == false)
+        {
+            GameManager.instance.TextNotify("Cannot spawn wall in tile where block path");
+            return;
+        }
+
         Wall wall = PoolManager.instance.Get((int)PoolTag.Wall).GetComponent<Wall>();
         wall.tileBelong = selectedTile;
         wall.transform.position = wall.tileBelong.tilePos;
@@ -68,25 +86,21 @@ public class SpawnManager : ISceneListener
         wall.tileBelong.wall = wall.GetComponent<Wall>();
 
         GameManager.instance.gold -= 5;
+
+        MapManager.instance.onSelectedTileChanged?.Invoke();
     }
 
     public void SpawnDefaultTower(TileInfo selectedTile)
     {
-        //if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
-        //{
-        //    SpawnUITextNotification("웨이브중 타워 건설이 불가능합니다.");
-        //    return;
-        //}
-
         if (selectedTile.tileState != TileState.Wall)
         {
-            SpawnUITextNotification("타워는 벽이 건설된 타일에만 건설 가능합니다.");
+            GameManager.instance.TextNotify("Tower can be spawned in tile where wall created");
             return;
         }
 
         if (GameManager.instance.gold < 5)
         {
-            SpawnUITextNotification("자원이 부족합니다.");
+            GameManager.instance.TextNotify("Not enough Gold");
             return;
         }
 
@@ -97,16 +111,17 @@ public class SpawnManager : ISceneListener
         switch (randomNum)
         {
             case 0:
-                tower = PoolManager.instance.Get((int)PoolTag.Tower).AddComponent<DiamondTowerController>();
+                tower = PoolManager.instance.Get((int)PoolTag.Tower).GetComponent<DiamondTowerController>();
                 break;
             case 1:
-                tower = PoolManager.instance.Get((int)PoolTag.Tower).AddComponent<HexagonTowerController>();
+                tower = PoolManager.instance.Get((int)PoolTag.Tower).GetComponent<HexagonTowerController>();
                 break;
             default:
-                tower = PoolManager.instance.Get((int)PoolTag.Tower).AddComponent<TriangleTowerController>();
+                tower = PoolManager.instance.Get((int)PoolTag.Tower).GetComponent<TriangleTowerController>();
                 break;
         }
 
+        tower.enabled = true;
         tower.tileBelong = selectedTile;
         tower.gameObject.transform.position = tower.tileBelong.tilePos;
         tower.tileBelong.tileState = TileState.Tower;
@@ -124,6 +139,8 @@ public class SpawnManager : ISceneListener
         onTowerSpawned?.Invoke();
         
         GameManager.instance.gold -= 5;
+
+        MapManager.instance.onSelectedTileChanged?.Invoke();
     }
 
     public void SpawnMissle(TowerController owner)
@@ -135,15 +152,16 @@ public class SpawnManager : ISceneListener
             case AttackType.None:
                 return;
             case AttackType.Normal:
-                missle = PoolManager.instance.Get((int)PoolTag.Missle).AddComponent<NormalMissleController>();
+                missle = PoolManager.instance.Get((int)PoolTag.Missle).GetComponent<NormalMissleController>();
                 break;
             case AttackType.Splash:
-                missle = PoolManager.instance.Get((int)PoolTag.Missle).AddComponent<SplashMissleController>();
+                missle = PoolManager.instance.Get((int)PoolTag.Missle).GetComponent<SplashMissleController>();
                 break;
             default:
                 return;
         };
 
+        missle.enabled = true;
         missle.owner = owner;
         missle.SetUp();
     }
@@ -152,19 +170,19 @@ public class SpawnManager : ISceneListener
     {
         if (GameManager.instance.gold < 5)
         {
-            SpawnUITextNotification("자원이 부족합니다.");
+            GameManager.instance.TextNotify("Not enough Gold");
             return;
         }
 
         if (towersInField[selectedTower.id].Count <= 1)
         {
-            SpawnUITextNotification("필드에 선택한 타워와 같은 종류의 타워가 없습니다.");
+            GameManager.instance.TextNotify("Merging tower cannot");
             return;
         }
 
         if (3 * (selectedTower.level + 1) >= TowerData.instance.towerDataList.Count)
         {
-            SpawnUITextNotification("최대 레벨에 도달한 타워입니다.");
+            GameManager.instance.TextNotify("This tower already reached maximum level");
             return;
         }
 
@@ -215,21 +233,23 @@ public class SpawnManager : ISceneListener
         onTowerSpawned?.Invoke();
 
         towersInField[selectedTower.id].Add(selectedTower);
+
+        MapManager.instance.onSelectedTileChanged?.Invoke();
     }
 
     public void DestroyObject(TileInfo selectedTile)
     {
-        if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
-        {
-            SpawnUITextNotification("벽과 타워는 웨이브 중 파괴할 수 없습니다.");
-            return;
-        }
-
         switch ((int)selectedTile.tileState)
         {
             case 0:
                 return;
             case 1:
+                if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
+                {
+                    GameManager.instance.TextNotify("Cannot destroy wall During Wave");
+                    return;
+                }
+
                 selectedTile.wall.gameObject.SetActive(false);
                 break;
             case 2:
@@ -237,23 +257,27 @@ public class SpawnManager : ISceneListener
                 onTowerDestroyed?.Invoke();
                 break;
             default:
-                Console.WriteLine("DestroyObject invalid Input ㅁㄴㅇㄹㄹㄴㅁㄻㄴㅇㄻㄴㄻ");
+                Console.WriteLine("DestroyObject invalid Input");
                 break;
         }
+
+        GameManager.instance.gold -= 5;
         selectedTile.tileState -= 1;
+
+        MapManager.instance.onSelectedTileChanged?.Invoke();
     }
 
     public IEnumerator SpawnPathNotificatorRoutine()
     {
         if (_canNotifyPath == false)
         {
-            SpawnUITextNotification("경로 표시가 이미 진행중입니다.");
+            GameManager.instance.TextNotify("Already notifying path");
             yield break;
         }
 
         if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
         {
-            SpawnUITextNotification("경로 확인은 준비 단계에서만 가능합니다.");
+            GameManager.instance.TextNotify("Path preview only in buildphase");
             yield break;
         }
 

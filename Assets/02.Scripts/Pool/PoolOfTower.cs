@@ -9,7 +9,12 @@ public class PoolOfTower : GameObjectPool
     {
         base.OnReturnToPool(item);
 
+        foreach (var controller in item.GetComponents<TowerController>())
+        {
+            controller.enabled = false;
+        }
+
         // ¤Ð¤Ð
-        Destroy(item.GetComponent<TowerController>());
+        //Destroy(item.GetComponent<TowerController>());
     }
 }

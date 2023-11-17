@@ -50,9 +50,6 @@ public class MapManager : MonoBehaviour
         get { return _selectedTile; }
         set
         {
-            if (value == _selectedTile)
-                return;
-
             _selectedTile = value;
             onSelectedTileChanged?.Invoke();
         }

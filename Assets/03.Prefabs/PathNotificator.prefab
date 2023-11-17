@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5328876317368203420}
   - component: {fileID: 5617553934159568090}
   m_Layer: 0
-  m_Name: TestPathNotificator
+  m_Name: PathNotificator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

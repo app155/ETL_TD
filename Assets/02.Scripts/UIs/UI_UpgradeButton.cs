@@ -45,6 +45,19 @@ namespace TD.UI
                         UpgradeManager.instance.UpgradeDiamondTower();
                         _upgradeText.text = $"{UpgradeManager.instance.diamondUpgrade}\n{(UpgradeManager.instance.diamondUpgrade + 1) * 5}G";
                     });
+
+                    GameManager.instance.onGoldChanged += () =>
+                    {
+                        if (GameManager.instance.gold < (UpgradeManager.instance.diamondUpgrade + 1) * 5)
+                        {
+                            _upgradeText.color = Color.red;
+                        }
+
+                        else
+                        {
+                            _upgradeText.color = Color.black;
+                        }
+                    };
                     break;
                 case TowerType.Hexagon:
                     _button.onClick.AddListener(() =>
@@ -52,6 +65,19 @@ namespace TD.UI
                         UpgradeManager.instance.UpgradeHexagonTower();
                         _upgradeText.text = $"{UpgradeManager.instance.hexagonUpgrade}\n{(UpgradeManager.instance.hexagonUpgrade + 1) * 5}G";
                     });
+
+                    GameManager.instance.onGoldChanged += () =>
+                    {
+                        if (GameManager.instance.gold < (UpgradeManager.instance.hexagonUpgrade + 1) * 5)
+                        {
+                            _upgradeText.color = Color.red;
+                        }
+
+                        else
+                        {
+                            _upgradeText.color = Color.black;
+                        }
+                    };
                     break;
                 case TowerType.Triangle:
                     _button.onClick.AddListener(() =>
@@ -59,6 +85,19 @@ namespace TD.UI
                         UpgradeManager.instance.UpgradeTriangleTower();
                         _upgradeText.text = $"{UpgradeManager.instance.triangleUpgrade}\n{(UpgradeManager.instance.triangleUpgrade + 1) * 5}G";
                     });
+
+                    GameManager.instance.onGoldChanged += () =>
+                    {
+                        if (GameManager.instance.gold < (UpgradeManager.instance.triangleUpgrade + 1) * 5)
+                        {
+                            _upgradeText.color = Color.red;
+                        }
+
+                        else
+                        {
+                            _upgradeText.color = Color.black;
+                        }
+                    };
                     break;
             }
         }

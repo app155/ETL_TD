@@ -5,8 +5,11 @@ using UnityEngine;
 
 public class PlayManager : MonoBehaviour
 {
-    private bool _canInputAction => GameManager.instance.gamePhase == GamePhase.BuildPhase ||
-                                    GameManager.instance.gamePhase == GamePhase.DefensePhase;
+    [SerializeField] private Canvas _tileActionUI;
+
+    private bool _canInputAction => _tileActionUI.gameObject.activeSelf == false &&
+                                    (GameManager.instance.gamePhase == GamePhase.BuildPhase ||
+                                     GameManager.instance.gamePhase == GamePhase.DefensePhase);
 
     void Update()
     {
@@ -39,77 +42,77 @@ public class PlayManager : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            MapManager.instance.selectedTile = null;
-        }
+        //if (Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    MapManager.instance.selectedTile = null;
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Q) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0)
-        {
-            if (MapManager.instance.selectedTile.tileState == TileState.None)
-            {
-                if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
-                {
-                    SpawnManager.instance.SpawnUITextNotification("벽은 준비 단계에서만 건설 가능합니다.");
-                    return;
-                }
+        //if (Input.GetKeyDown(KeyCode.Q) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0)
+        //{
+        //    if (MapManager.instance.selectedTile.tileState == TileState.None)
+        //    {
+        //        if (GameManager.instance.gamePhase != GamePhase.BuildPhase)
+        //        {
+        //            GameManager.instance.TextNotify("1");
+        //            return;
+        //        }
 
-                if (GameManager.instance.gold < 5)
-                {
-                    SpawnManager.instance.SpawnUITextNotification("자원이 부족합니다.");
-                    return;
-                }
+        //        if (GameManager.instance.gold < 5)
+        //        {
+        //            GameManager.instance.TextNotify("자원이 부족합니다.");
+        //            return;
+        //        }
 
-                if (MapManager.instance.PathFindbyBFS(MapManager.instance.selectedTile, MapManager.instance.map))
-                {
-                    SpawnManager.instance.SpawnWall(MapManager.instance.selectedTile);
-                }
+        //        if (MapManager.instance.PathFindbyBFS(MapManager.instance.selectedTile, MapManager.instance.map))
+        //        {
+        //            SpawnManager.instance.SpawnWall(MapManager.instance.selectedTile);
+        //        }
 
-                else
-                {
-                    SpawnManager.instance.SpawnUITextNotification("길을 막는 위치에 벽을 건설할 수 없습니다.");
-                }
-            }
+        //        else
+        //        {
+        //            GameManager.instance.TextNotify("길을 막는 위치에 벽을 건설할 수 없습니다.");
+        //        }
+        //    }
 
-            else
-            {
-                SpawnManager.instance.SpawnUITextNotification("벽은 빈 타일에만 건설 가능합니다.");
-            }
-        }
+        //    else
+        //    {
+        //        GameManager.instance.TextNotify("벽은 빈 타일에만 건설 가능합니다.");
+        //    }
+        //}
 
-        if (Input.GetKeyDown(KeyCode.W) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0)
-        {
-            SpawnManager.instance.SpawnDefaultTower(MapManager.instance.selectedTile);
-        }
+        //if (Input.GetKeyDown(KeyCode.W) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0)
+        //{
+        //    SpawnManager.instance.SpawnDefaultTower(MapManager.instance.selectedTile);
+        //}
 
-        if (Input.GetKeyDown(KeyCode.E) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0 && MapManager.instance.selectedTile.tileState == TileState.Tower)
-        {
-            SpawnManager.instance.MergeTower(MapManager.instance.selectedTile.tower);
-        }
+        //if (Input.GetKeyDown(KeyCode.E) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0 && MapManager.instance.selectedTile.tileState == TileState.Tower)
+        //{
+        //    SpawnManager.instance.MergeTower(MapManager.instance.selectedTile.tower);
+        //}
 
-        if (Input.GetKeyDown(KeyCode.R) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0)
-        {
-            SpawnManager.instance.DestroyObject(MapManager.instance.selectedTile);
-        }
+        //if (Input.GetKeyDown(KeyCode.R) && Comparer.Default.Compare(MapManager.instance.selectedTile, default) != 0)
+        //{
+        //    SpawnManager.instance.DestroyObject(MapManager.instance.selectedTile);
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            StartCoroutine(SpawnManager.instance.SpawnPathNotificatorRoutine());
-        }
+        //if (Input.GetKeyDown(KeyCode.Tab))
+        //{
+        //    StartCoroutine(SpawnManager.instance.SpawnPathNotificatorRoutine());
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            UpgradeManager.instance.UpgradeDiamondTower();
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    UpgradeManager.instance.UpgradeDiamondTower();
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            UpgradeManager.instance.UpgradeHexagonTower();
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha2))
+        //{
+        //    UpgradeManager.instance.UpgradeHexagonTower();
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            UpgradeManager.instance.UpgradeTriangleTower();
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha3))
+        //{
+        //    UpgradeManager.instance.UpgradeTriangleTower();
+        //}
     }
 }

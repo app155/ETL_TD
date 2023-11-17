@@ -9,7 +9,9 @@ public class PoolOfMissle : GameObjectPool
     {
         base.OnReturnToPool(item);
 
-        // ¤Ð¤Ð
-        Destroy(item.GetComponent<MissleController>());
+        foreach (var controller in item.GetComponents<MissleController>())
+        {
+            controller.enabled = false;
+        }
     }
 }

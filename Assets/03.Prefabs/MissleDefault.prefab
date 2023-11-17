@@ -95,6 +95,8 @@ GameObject:
   - component: {fileID: 3356185824800501764}
   - component: {fileID: 4818840699487838594}
   - component: {fileID: 8826445397468933963}
+  - component: {fileID: 3440610092317934282}
+  - component: {fileID: -1042165085156374470}
   m_Layer: 0
   m_Name: MissleDefault
   m_TagString: Untagged
@@ -197,6 +199,39 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &3440610092317934282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5993115582338167374}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2ad69fcca7266a4da1e15f64b470796, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  id: 0
+  _atk: 0
+  _target: {fileID: 0}
+--- !u!114 &-1042165085156374470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5993115582338167374}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3348e197c16876649a2b2d06a26b1e72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  id: 0
+  _atk: 0
+  _target: {fileID: 0}
+  _damageRange: 0
 --- !u!1 &7462690768463638968
 GameObject:
   m_ObjectHideFlags: 0
