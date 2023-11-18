@@ -195,13 +195,14 @@ public class SpawnManager : ISceneListener
                 continue;
 
             mergedTower = towersInField[selectedTower.id][i];
-            towersInField[selectedTower.id].Remove(mergedTower);
-            mergedTower.tileBelong.tileState = TileState.Wall;
-            towersInField[selectedTower.id].Remove(selectedTower);
             break;
         }
 
         GameManager.instance.gold -= 5;
+
+        towersInField[selectedTower.id].Remove(mergedTower);
+        mergedTower.tileBelong.tileState = TileState.Wall;
+        towersInField[selectedTower.id].Remove(selectedTower);
         mergedTower.tileBelong.tower = null;
         mergedTower.gameObject.SetActive(false);
 
@@ -239,6 +240,12 @@ public class SpawnManager : ISceneListener
 
     public void DestroyObject(TileInfo selectedTile)
     {
+        if (GameManager.instance.gold < 5)
+        {
+            GameManager.instance.TextNotify("Not enough Gold");
+            return;
+        }
+
         switch ((int)selectedTile.tileState)
         {
             case 0:

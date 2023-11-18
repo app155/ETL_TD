@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Enemy22
   m_EditorClassIdentifier: 
   id: 22
-  moveSpeed: 1
-  hpMax: 30
+  moveSpeed: 2
+  hpMax: 7000
   sprite: {fileID: 21300000, guid: d8c6df48addee92429a27e94624ec576, type: 3}

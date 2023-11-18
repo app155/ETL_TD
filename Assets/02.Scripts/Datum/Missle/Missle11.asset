@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 11
   moveSpeed: 20
-  damageRange: 1.6
+  damageRange: 1.2
   targetLayer:
     serializedVersion: 2
     m_Bits: 1024

@@ -16,25 +16,13 @@ namespace TD.Controller
         public Transform _target;
         protected Vector2 _targetPos;
 
-        protected Rigidbody2D _rigid;
         protected LayerMask _targetLayer;
         protected SpriteRenderer _spriteRenderer;
         protected Color _color;
 
         protected void Awake()
         {
-            _rigid = GetComponent<Rigidbody2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
-        }
-
-        private void Start()
-        {
-
-        }
-
-        private void OnEnable()
-        {
-
         }
 
         protected void Update()
@@ -72,20 +60,20 @@ namespace TD.Controller
                 _target = null;
         }
 
-        protected virtual void Follow(Vector2 targetPos)
+        protected virtual void Follow(Vector3 targetPos)
         {
-            Vector2 expectedPos = (targetPos - _rigid.position).normalized * _moveSpeed * Time.fixedDeltaTime;
+            Vector3 expectedPos = (targetPos - transform.position).normalized * _moveSpeed * Time.fixedDeltaTime;
             float expectedDistance = expectedPos.magnitude;
 
-            if (Vector2.Distance(_targetPos, _rigid.position) < expectedDistance)
-                _rigid.position = targetPos;
+            if (Vector2.Distance(_targetPos, transform.position) < expectedDistance)
+                transform.position = targetPos;
 
             else
             {
-                _rigid.position += expectedPos;
+                transform.position += expectedPos;
             }
 
-            if (Vector2.Distance(_targetPos, _rigid.position) < 0.03f)
+            if (Vector2.Distance(_targetPos, transform.position) < 0.03f)
             {
                 Fire();
             }

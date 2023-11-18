@@ -19,7 +19,7 @@ MonoBehaviour:
   atkBase: 16
   atkRange: 5.5
   atkTime: 0.35
-  upgradeGain: 8
+  upgradeGain: 9
   targetLayer:
     serializedVersion: 2
     m_Bits: 1024

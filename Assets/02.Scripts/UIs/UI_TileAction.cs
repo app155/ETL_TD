@@ -76,11 +76,6 @@ namespace TD.UI
 
             MapManager.instance.onSelectedTileChanged += () =>
             {
-                //if (Comparer.Default.Compare(MapManager.instance.selectedTile, default) == 0)
-                //{
-                //    gameObject.SetActive(false);
-                //}
-
                 if (MapManager.instance.selectedTile is null)
                 {
                     gameObject.SetActive(false);
@@ -93,15 +88,15 @@ namespace TD.UI
                         case TileState.None:
                             {
                                 _createWallButton.gameObject.SetActive(true);
-                                if (GameManager.instance.gold < 5)
-                                {
-                                    _createWallButtonText.color = Color.red;
-                                }
+                                //if (GameManager.instance.gold < 5)
+                                //{
+                                //    _createWallButtonText.color = Color.red;
+                                //}
 
-                                else
-                                {
-                                    _createWallButtonText.color = Color.black;
-                                }
+                                //else
+                                //{
+                                //    _createWallButtonText.color = Color.black;
+                                //}
 
                                 _destroyWallButton.gameObject.SetActive(false);
                                 _createTowerButton.gameObject.SetActive(false);
@@ -113,26 +108,26 @@ namespace TD.UI
                             {
                                 _createWallButton.gameObject.SetActive(false);
                                 _destroyWallButton.gameObject.SetActive(true);
-                                if (GameManager.instance.gold < 5)
-                                {
-                                    _destroyWallButtonText.color = Color.red;
-                                }
+                                //if (GameManager.instance.gold < 5)
+                                //{
+                                //    _destroyWallButtonText.color = Color.red;
+                                //}
 
-                                else
-                                {
-                                    _destroyWallButtonText.color = Color.black;
-                                }
+                                //else
+                                //{
+                                //    _destroyWallButtonText.color = Color.black;
+                                //}
 
                                 _createTowerButton.gameObject.SetActive(true);
-                                if (GameManager.instance.gold < 5)
-                                {
-                                    _createTowerButtonText.color = Color.red;
-                                }
+                                //if (GameManager.instance.gold < 5)
+                                //{
+                                //    _createTowerButtonText.color = Color.red;
+                                //}
 
-                                else
-                                {
-                                    _createTowerButtonText.color = Color.black;
-                                }
+                                //else
+                                //{
+                                //    _createTowerButtonText.color = Color.black;
+                                //}
 
                                 _mergeTowerButton.gameObject.SetActive(false);
                                 _destroyTowerButton.gameObject.SetActive(false);
@@ -144,26 +139,26 @@ namespace TD.UI
                                 _destroyWallButton.gameObject.SetActive(false);
                                 _createTowerButton.gameObject.SetActive(false);
                                 _mergeTowerButton.gameObject.SetActive(true);
-                                if (GameManager.instance.gold < 5)
-                                {
-                                    _mergeTowerButtonText.color = Color.red;
-                                }
+                                //if (GameManager.instance.gold < 5)
+                                //{
+                                //    _mergeTowerButtonText.color = Color.red;
+                                //}
 
-                                else
-                                {
-                                    _mergeTowerButtonText.color = Color.black;
-                                }
+                                //else
+                                //{
+                                //    _mergeTowerButtonText.color = Color.black;
+                                //}
 
                                 _destroyTowerButton.gameObject.SetActive(true);
-                                if (GameManager.instance.gold < 5)
-                                {
-                                    _destroyTowerButtonText.color = Color.red;
-                                }
+                                //if (GameManager.instance.gold < 5)
+                                //{
+                                //    _destroyTowerButtonText.color = Color.red;
+                                //}
 
-                                else
-                                {
-                                    _destroyTowerButtonText.color = Color.black;
-                                }
+                                //else
+                                //{
+                                //    _destroyTowerButtonText.color = Color.black;
+                                //}
                             }
                             break;
                     }

@@ -94,11 +94,21 @@ namespace TD.Controller
 
         protected Transform Search()
         {
-            RaycastHit2D[] hit = Physics2D.CircleCastAll(transform.position, _atkRange, Vector2.zero, 0.0f, _targetLayer);
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, _atkRange, Vector2.zero, 0.0f, _targetLayer);
 
-            if (hit.Length > 0)
+            if (hits.Length > 0)
             {
-                return hit[0].transform;
+                Transform target = hits[0].transform;
+
+                for (int i = 1; i < hits.Length; i++)
+                {
+                    if (Vector2.Distance(transform.position, target.position) > Vector2.Distance(transform.position, hits[i].transform.position))
+                    {
+                        target = hits[i].transform;
+                    }
+                }
+
+                return target;
             }
 
             return null;
@@ -141,7 +151,7 @@ namespace TD.Controller
             _targetLayer = TowerData.instance.towerDataList[randomNum].targetLayer;
         }
 
-        protected void OnDrawGizmos()
+        protected void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, _atkRange);

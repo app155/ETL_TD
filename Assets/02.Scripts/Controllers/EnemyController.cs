@@ -81,7 +81,7 @@ namespace TD.Controller
             _nextPosIndex = path[_step];
             Vector3 nextPos = MapManager.instance.map[_nextPosIndex[0], _nextPosIndex[1]].tilePos;
 
-            if (Vector2.Distance(transform.position, nextPos) >= 0.03f)
+            if (Vector3.Distance(transform.position, nextPos) >= 0.03f)
             {
                 transform.position += (nextPos - transform.position).normalized * _moveSpeed * Time.deltaTime;
             }
@@ -107,7 +107,7 @@ namespace TD.Controller
         void Die()
         {
             SpawnManager.instance.enemyRemainCount--;
-            GameManager.instance.gold += 1;
+            GameManager.instance.gold += 1 + GameManager.instance.round / 7;
             gameObject.SetActive(false);
         }
     }

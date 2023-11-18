@@ -21,7 +21,7 @@ namespace TD.Controller
             _isFired = false;
         }
 
-        protected override void Follow(Vector2 targetPos)
+        protected override void Follow(Vector3 targetPos)
         {
             if (_isFired)
             {
@@ -37,7 +37,7 @@ namespace TD.Controller
 
             _spriteRenderer.color = Color.clear;
 
-            RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, _damageRange, Vector2.zero, 0.0f, _targetLayer);
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, _damageRange / 2.0f, Vector2.zero, 0.0f, _targetLayer);
 
             foreach (RaycastHit2D hit in hits)
             {
@@ -49,8 +49,14 @@ namespace TD.Controller
                 hit.collider.gameObject.GetComponent<EnemyController>().DepleteHp(_atk);
             }
 
-            _splashRangeEffect.transform.localScale *= _damageRange;
             _splashRangeEffect.SetActive(true);
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.blue;
+
+            Gizmos.DrawWireSphere(transform.position, _damageRange / 2.0f);
         }
     }
 }
