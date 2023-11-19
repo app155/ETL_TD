@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public int gold
+    public float gold
     {
         get { return _gold; }
 
@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour
     private GamePhase _gamePhase;
     private static GameManager _instance;
     [SerializeField] private int _initialGold;
-    private int _gold;
+    private float _gold;
     [SerializeField] private int _initialLife;
     private int _life;
 
@@ -139,6 +139,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        // 노트북이 16 : 10이라 추가;;
+        Screen.SetResolution(1920, 1080, true);
+
         gold = _initialGold;
         life = _initialLife;
         gamePhase = GamePhase.BeforeStart;

@@ -136,7 +136,6 @@ namespace TD.Controller
             }
         }
 
-        //adsfsafdsafdsaf
         public virtual void SetUp(int randomNum)
         {
             id = TowerData.instance.towerDataList[randomNum].id;

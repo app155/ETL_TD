@@ -106,8 +106,8 @@ namespace TD.Controller
 
         void Die()
         {
+            GameManager.instance.gold += 1 + GameManager.instance.round / 5 / 10.0f * 2;
             SpawnManager.instance.enemyRemainCount--;
-            GameManager.instance.gold += 1 + GameManager.instance.round / 7;
             gameObject.SetActive(false);
         }
     }

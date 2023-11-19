@@ -45,7 +45,6 @@ public class SpawnManager : ISceneListener
         }
     }
 
-    public Action onDefensePhaseStarted;
     public Action onTowerSpawned;
     public Action onTowerDestroyed;
 
@@ -212,16 +211,17 @@ public class SpawnManager : ISceneListener
         switch (randomNum % 3)
         {
             case 0:
-                selectedTower = PoolManager.instance.Get((int)PoolTag.Tower).AddComponent<DiamondTowerController>();
+                selectedTower = PoolManager.instance.Get((int)PoolTag.Tower).GetComponent<DiamondTowerController>();
                 break;
             case 1:
-                selectedTower = PoolManager.instance.Get((int)PoolTag.Tower).AddComponent<HexagonTowerController>();
+                selectedTower = PoolManager.instance.Get((int)PoolTag.Tower).GetComponent<HexagonTowerController>();
                 break;
             default:
-                selectedTower = PoolManager.instance.Get((int)PoolTag.Tower).AddComponent<TriangleTowerController>();
+                selectedTower = PoolManager.instance.Get((int)PoolTag.Tower).GetComponent<TriangleTowerController>();
                 break;
         }
 
+        selectedTower.enabled = true;
         selectedTower.tileBelong = tile;
         tile.tower = selectedTower;
         selectedTower.SetUp(randomNum);
@@ -258,9 +258,11 @@ public class SpawnManager : ISceneListener
                 }
 
                 selectedTile.wall.gameObject.SetActive(false);
+                selectedTile.wall = null;
                 break;
             case 2:
                 selectedTile.tower.gameObject.SetActive(false);
+                selectedTile.tower = null;
                 onTowerDestroyed?.Invoke();
                 break;
             default:
@@ -333,7 +335,6 @@ public class SpawnManager : ISceneListener
 
     public void OnBeforeSceneLoaded()
     {
-        onDefensePhaseStarted = null;
         onTowerSpawned = null;
         onTowerDestroyed = null;
         _enemySpawnCount = 0;

@@ -13,7 +13,7 @@ namespace TD.UI
         {
             _goldText = GetComponent<Text>();
             GameManager.instance.onGoldChanged += ()
-                => _goldText.text = GameManager.instance.gold.ToString();
+                => _goldText.text = ((int)GameManager.instance.gold).ToString();
         }
     }
 }
